@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>【枠順確定後メモ】予想メモ帳：日本テレビ盃</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.5; color: #333; background-color: #e2e8f0; margin: 0; padding: 10px 6px 80px 6px; }
+        @media (min-width: 600px) { body { padding: 10px 12px 80px 12px; } }
+        
+        .page-title { max-width: 980px; margin: 0 auto 5px; font-size: 1.3rem; color: #1a365d; font-weight: bold; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #6b46c1; padding-bottom: 8px; }
+        @media (min-width: 600px) { .page-title { font-size: 1.4rem; } }
+        .page-subtitle { max-width: 980px; margin: 0 auto 12px; font-size: 0.85rem; font-weight: bold; color: #4a5568; }
+        
+        .condition-badge { display: flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 20px; padding: 5px 14px; font-size: 0.85rem; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+        .badge-label { color: #2b6cb0; font-weight: bold; margin-right: 6px; }
+        .badge-select { border: none; background: transparent; font-size: 0.85rem; font-weight: bold; color: #2d3748; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; padding-right: 16px; border-bottom: 1px dashed #cbd5e0; background-image: url('data:image/svg+xml;utf8,<svg fill="%234a5568" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); background-repeat: no-repeat; background-position: right center; }
+        .badge-select:focus { border-bottom-color: #6b46c1; }
+        .badge-editable { font-weight: bold; color: #2d3748; border-bottom: 1px dashed #cbd5e0; min-width: 70px; outline: none; padding-bottom: 1px; }
+        .badge-editable:focus { background: #fffbdd; border-color: #6b46c1; }
+        .course-badge { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .course-badge span { font-size: 0.75rem; font-weight: bold; color: #1a365d; margin-bottom: 4px; }
+
+        .system-msg { font-size: 0.8rem; color: #38a169; background: #c6f6d5; padding: 3px 8px; border-radius: 20px; opacity: 0; transition: opacity 0.3s; }
+        .system-msg.show { opacity: 1; }
+        .floating-save-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #6b46c1; color: white; border: none; padding: 10px 20px; border-radius: 30px; font-size: 0.95rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(107,70,193,0.4); }
+        .floating-save-btn:hover { background: #553c9a; }
+
+        .overview-container { max-width: 980px; margin: 0 auto 15px; background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); border-left: 6px solid #6b46c1; }
+        @media (min-width: 600px) { .overview-container { padding: 15px 20px; margin-bottom: 20px; } }
+        .overview-text h2 { margin-top: 0; font-size: 1.1rem; color: #2d3748; border-bottom: 1px dashed #cbd5e0; padding-bottom: 8px; margin-bottom: 12px; }
+        .track-bias-box { background: #fff5f5; border: 1.5px solid #2d3748; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+        .track-bias-box h3 { margin: 0 0 6px 0; font-size: 0.9rem; color: #c53030; }
+        .overview-content { font-size: 0.85rem; color: #4a5568; min-height: 36px; margin-bottom: 12px; line-height: 1.6; }
+        .overview-content:focus { background: #fffbdd; outline: none; }
+        .data-room-box { background: #f0f4f8; border: 1px solid #cbd5e0; padding: 12px 14px; border-radius: 6px; margin-bottom: 6px; }
+        .data-room-box h3 { margin: 0 0 8px 0; font-size: 0.9rem; color: #1a365d; border-bottom: 1px solid #cbd5e0; padding-bottom: 6px; }
+        .data-room-box ul { margin: 0; padding-left: 18px; font-size: 0.82rem; color: #2d3748; line-height: 1.5; }
+        .data-room-box ul:focus { background: #fffbdd; outline: none; }
+
+        .tab-container { max-width: 980px; margin: 0 auto 15px; display: flex; gap: 10px; }
+        .tab-btn { flex: 1; background: #ffffff; border: 1px solid #cbd5e0; padding: 10px; border-radius: 8px 8px 0 0; font-size: 0.95rem; font-weight: bold; cursor: pointer; color: #4a5568; transition: all 0.2s; border-bottom: none; }
+        .tab-btn.active { background: #6b46c1; color: white; border-color: #6b46c1; }
+        .tab-content { display: none; max-width: 980px; margin: 0 auto 15px; background: #ffffff; padding: 15px; border-radius: 0 8px 8px 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); }
+        .tab-content.active { display: block; }
+
+        .pace-board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #cbd5e0; padding-bottom: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+        .pace-board-header h3 { margin: 0; font-size: 1.1rem; color: #2d3748; }
+        .pace-row { display: flex; align-items: center; border-bottom: 1px solid #edf2f7; padding: 10px 0; min-height: 65px; }
+        .pace-row:last-child { border-bottom: none; }
+        .pace-label { width: 50px; font-weight: bold; color: #4a5568; font-size: 0.9rem; text-align: center; margin-right: 10px; flex-shrink: 0; }
+        .pace-horses { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; align-items: flex-start; min-height: 45px; padding: 5px; background: #f8fafc; border-radius: 6px; border: 1px dashed #e2e8f0; }
+        .pace-horse { display: flex; flex-direction: column; align-items: center; width: 44px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .pace-horse:active { transform: scale(0.95); }
+        .pace-horse-num { width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; border-radius: 4px; font-weight: bold; font-size: 0.95rem; margin-bottom: 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.15); pointer-events: none; }
+        .pace-horse-name { font-size: 0.65rem; color: #4a5568; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; font-weight: bold; pointer-events: none; }
+        .sortable-ghost { opacity: 0.4; }
+        
+        .win-rate-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #edf2f7; }
+        .total-rate { font-size: 1.1rem; font-weight: bold; }
+        .total-rate.error { color: #e53e3e; }
+        .total-rate.ok { color: #38a169; }
+        .wr-row { display: flex; align-items: center; margin-bottom: 10px; gap: 10px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px; }
+        .wr-row:last-child { border-bottom: none; }
+        .wr-info { width: 120px; flex-shrink: 0; display: flex; flex-direction: column; cursor: pointer; }
+        .wr-name { font-weight: bold; font-size: 0.85rem; color: #1a365d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 4px; }
+        .wr-num-badge { display: inline-flex; justify-content: center; align-items: center; width: 18px; height: 18px; font-size: 0.75rem; font-weight: bold; color: #4a5568; }
+        .wr-odds { font-size: 0.75rem; color: #718096; margin-top: 2px; }
+        .wr-bar-container { flex: 1; height: 20px; background: #edf2f7; border-radius: 4px; overflow: hidden; position: relative; display: flex; align-items: center; }
+        .wr-bar { height: 100%; background: linear-gradient(90deg, #6b46c1, #9f7aea); width: 0%; transition: width 0.3s ease; }
+        .wr-controls { display: flex; align-items: center; gap: 2px; width: 95px; justify-content: flex-end; flex-shrink: 0; }
+        .wr-ev1 { width: 82px; flex-shrink: 0; text-align: center; font-size: 0.72rem; font-weight: bold; color: #744210; background: #fffaf0; border: 1px solid #fbd38d; border-radius: 5px; padding: 4px 3px; white-space: nowrap; }
+        .live-note { font-size:0.75rem; color:#4a5568; background:#ebf8ff; border:1px solid #bee3f8; border-radius:6px; padding:7px 9px; margin:-5px 0 12px; line-height:1.5; }
+        .section-heading { max-width:980px; margin:0 auto 8px; padding:9px 12px; background:#f8fafc; border-left:5px solid #6b46c1; border-radius:6px; font-size:1rem; font-weight:bold; color:#1a365d; }
+        @media (max-width:520px) { .wr-row { gap:6px; } .wr-info { width:102px; } .wr-controls { width:88px; } .wr-ev1 { width:72px; font-size:0.66rem; } }
+        .wr-btn { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; color: #4a5568; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .wr-btn:active { background: #cbd5e0; }
+        .wr-input-graph { width: 40px; text-align: center; font-weight: bold; border: 1px solid #cbd5e0; border-radius: 4px; padding: 2px; font-size: 0.85rem; -moz-appearance: textfield; }
+        .wr-input-graph::-webkit-outer-spin-button, .wr-input-graph::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .wr-unit { font-size: 0.75rem; color: #718096; margin-left: 2px; }
+
+        .accordion-box { max-width: 980px; margin: 0 auto 15px; background: #ffffff; border-radius: 8px; border: 1px solid #cbd5e0; box-shadow: 0 2px 5px rgba(0,0,0,0.04); overflow: hidden; }
+        .accordion-summary { padding: 12px 15px; font-weight: bold; color: #1a365d; cursor: pointer; display: flex; align-items: center; outline: none; background: #f8fafc; font-size: 0.95rem; transition: background 0.2s; }
+        .accordion-summary:hover { background: #edf2f7; }
+        .accordion-summary::marker { color: #6b46c1; }
+        .accordion-content { padding: 15px; border-top: 1px solid #e2e8f0; }
+
+        .factor-setting-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .factor-label { font-size: 0.85rem; font-weight: bold; color: #4a5568; }
+        .factor-select-group { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+        .factor-select { padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e0; font-size: 0.85rem; font-weight: bold; color: #2d3748; background: #ffffff; flex: 1; min-width: 80px; outline: none; cursor: pointer; }
+        .factor-select:focus { border-color: #6b46c1; }
+        .reset-btn { background: #e53e3e; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-left: auto; }
+        .reset-btn:hover { background: #c53030; }
+
+        .odds-textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 0.85rem; resize: vertical; outline: none; margin-bottom: 10px; font-family: monospace; background: #fafcff; }
+        .odds-apply-btn { background: #3182ce; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: block; margin-left: auto; }
+
+        .sort-container { max-width: 980px; margin: 0 auto 12px; display: flex; justify-content: flex-end; align-items: center; gap: 6px; padding: 0 4px; }
+        .sort-container label { font-size: 0.85rem; font-weight: bold; color: #2d3748; white-space: nowrap; }
+        .sort-select-ui { padding: 5px 10px; border-radius: 6px; border: 2px solid #cbd5e0; font-size: 0.88rem; font-weight: bold; color: #1a365d; background: #ffffff; cursor: pointer; outline: none; }
+        .adjust-wr-btn { background: #38a169; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; cursor: pointer; margin-right: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        .summary-section { max-width: 980px; margin: 0 auto 15px; background: #ffffff; padding: 10px; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); }
+        @media (min-width: 600px) { .summary-section { padding: 15px; margin-bottom: 20px; } }
+        .vs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media (min-width: 600px) { .vs-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        @media (min-width: 920px) { .vs-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+
+        .vs-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); display: flex; flex-direction: column; }
+        .vs-header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 8px; }
+        
+        .vs-name-wrap { display: flex; flex-direction: column; cursor: pointer; flex: 1; padding: 2px 0; border-radius: 4px; transition: background 0.2s; }
+        .vs-name-wrap:hover { background: #f7fafc; }
+        .vs-name { font-weight: bold; font-size: 1.05rem; color: #2b6cb0; text-decoration: underline; text-decoration-color: #bee3f8; text-underline-offset: 3px; display: flex; align-items: baseline; }
+        
+        .horse-num-input { width: 28px; background: #f7fafc; border: 1px solid #cbd5e0; border-radius: 4px; color: #2b6cb0; font-size: 1.05rem; font-weight: bold; text-align: center; outline: none; padding: 2px 0; font-family: inherit; transition: all 0.2s; }
+        .horse-num-input:focus { border-color: #e53e3e; background: #fffbdd; box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2); }
+        
+        .vs-odds-info { font-size: 0.75rem; color: #4a5568; margin-top: 2px; }
+        .chevron-icon { font-size: 0.8rem; color: #a0aec0; margin-left: 5px; text-decoration: none; }
+
+        .vs-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-left: 10px; }
+        .win-rate-badge { display: inline-flex; align-items: center; background: #ffffff; border: 1.5px solid #2d3748; border-radius: 4px; font-size: 0.72rem; font-weight: bold; color: #1a365d; padding: 2px 4px; white-space: nowrap; }
+        .wr-input { width: 38px; border: none; background: #f8fafc; color: #c53030; font-weight: bold; font-size: 0.85rem; text-align: right; margin: 0 4px; border-radius: 2px; outline: none; padding: 0 2px; -moz-appearance: textfield; }
+        .wr-input::-webkit-outer-spin-button, .wr-input::-webkit-inner-spin-button { opacity: 1; margin-left: 2px; }
+        .wr-input:focus { background: #fffbdd; box-shadow: 0 0 0 1px #6b46c1; }
+        
+        .mark-wrap { position: relative; display: inline-block; width: 26px; height: 26px; flex-shrink: 0; }
+        .mark-select { appearance: none; -webkit-appearance: none; width: 26px; height: 26px; border: 2px solid #000; border-radius: 2px; background: #ffffff; font-size: 1rem; font-weight: bold; color: #c53030; text-align: center; cursor: pointer; padding: 0; outline: none; }
+        .mark-placeholder { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: #a0aec0; font-size: 0.7rem; pointer-events: none; }
+
+        .profile-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; font-size: 0.72rem; color: #4a5568; }
+        .profile-tag { padding: 2px 6px; border-radius: 4px; border: 1px solid #cbd5e0; background: #edf2f7; white-space: nowrap; }
+        .profile-tag.jockey { background: #f0fff4; border-color: #c6f6d5; color: #22543d; font-weight: bold; }
+        .profile-tag.pos { background: #fffaf0; border-color: #fbd38d; color: #c05621; font-weight: bold; }
+
+        .radar-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto 10px; }
+        .score-badge { color: white; padding: 2px 7px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; position: absolute; top: -16px; right: -16px; z-index: 5; }
+        .axis-label { position: absolute; font-size: 0.62rem; font-weight: bold; color: #4a5568; background: rgba(255,255,255,0.95); padding: 1px 4px; border-radius: 3px; border: 1px solid #cbd5e0; z-index: 10; cursor: pointer; user-select: none; white-space: nowrap; }
+        .label-0 { top: -14px; left: 50%; transform: translateX(-50%); }
+        .label-1 { top: 22px; right: -22px; }
+        .label-2 { bottom: -8px; right: -12px; }
+        .label-3 { bottom: -8px; left: -12px; }
+        .label-4 { top: 22px; left: -22px; }
+        .radar-svg { width: 100%; height: 100%; }
+
+        .sync-memo-race { width: 100%; font-size: 0.8rem; color: #4a5568; background: #fcfcfc; border: 1px dashed #cbd5e0; border-radius: 4px; padding: 6px; min-height: 4.5em; line-height: 1.4; outline: none; text-align: left; }
+        .sync-memo-race:focus { background: #fffbdd; border-color: #6b46c1; }
+
+        .modal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e2e8f0; z-index: 2001; transform: translateX(100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .modal-container.active { transform: translateX(0); }
+        .modal-header { background: #1a365d; color: white; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
+        .modal-back-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; gap: 4px; }
+        .modal-body { flex: 1; overflow-y: auto; padding: 15px 10px 80px 10px; }
+
+        .detail-card { max-width: 980px; margin: 0 auto 15px; background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); border-top: 4px solid #6b46c1; }
+        
+        .hp-header-main { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+        .hp-name-det { font-size: 1.4rem; font-weight: bold; color: #1a365d; display: flex; align-items: baseline; gap: 8px; }
+        
+        .blood-badge-wrap { display: flex; align-items: stretch; margin-bottom: 15px; border: 1px solid #cbd5e0; border-radius: 4px; }
+        .blood-badge-title { background: #6b46c1; color: white; font-weight: bold; font-size: 0.8rem; padding: 8px 12px; display: flex; align-items: center; white-space: nowrap; }
+        .detail-blood-memo { flex: 1; font-size: 0.9rem; color: #2d3748; background: #ffffff; padding: 8px 12px; min-height: 2em; line-height: 1.5; outline: none; }
+        .detail-blood-memo:focus { background: #fffbdd; }
+
+        .past-races-title { font-weight: bold; color: #1a365d; margin-bottom: 8px; font-size: 1.05rem; border-left: 4px solid #2b6cb0; padding-left: 8px; margin-top: 20px; }
+        .past-races-list { display: flex; gap: 10px; flex-direction: column; }
+        @media (min-width: 768px) { .past-races-list { flex-direction: row; flex-wrap: wrap; } }
+        
+        .past-race-item { background: #ffffff; border: 1px solid #cbd5e0; border-radius: 6px; padding: 10px; font-size: 0.85rem; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.04); width: 100%; }
+        @media (min-width: 768px) { .past-race-item { width: calc(33.333% - 7px); } }
+        
+        .pr-row1 { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px; margin-bottom: 6px; }
+        .pr-title { font-weight: bold; color: #1a202c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 4px; font-size: 0.95rem; }
+        .pr-track { color: #718096; font-size: 0.8rem; white-space: nowrap; }
+        
+        .pr-row2 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 2px; }
+        .pr-res-group { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+        .pr-rank { font-weight: bold; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; }
+        .pr-rank.win { background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; }
+        .pr-rank.in { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }
+        .pr-rank.out { background: #f7fafc; color: #718096; border: 1px solid #cbd5e0; }
+        .pr-jockey { font-size: 0.85rem; color: #2d3748; font-weight: bold; }
+        .pr-time { font-size: 0.85rem; font-weight: bold; color: #1a202c; }
+        .pr-pass { font-size: 0.8rem; color: #718096; letter-spacing: -0.5px; }
+        
+        .pr-row3 { background: #ffffff; border: none; border-top: 1px dashed #e2e8f0; padding: 6px 0 0 0; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2px; margin-top: 4px; }
+        .pr-rival { color: #2d3748; font-weight: bold; }
+        .pr-diff { font-weight: bold; }
+        .pr-diff.win-diff { color: #c53030; }
+        .pr-diff.lose-diff { color: #2b6cb0; }
+        .pr-agari { font-size: 0.85rem; color: #c53030; font-weight: bold; }
+
+        .detail-bottom-wrap { display: flex; gap: 20px; margin-top: 20px; align-items: center; flex-direction: column; }
+        .detail-radar-box { width: 100%; max-width: 260px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 15px; text-align: center; margin: 0 auto; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .analysis-box { flex-grow: 1; width: 100%; background: #ffffff; border: 1px solid #b794f4; border-radius: 8px; padding: 15px; font-size: 0.9rem; line-height: 1.6; color: #2d3748; min-height: 160px; outline: none; box-shadow: 0 2px 4px rgba(107,70,193,0.05); }
+        .analysis-box:focus-within { border-color: #6b46c1; box-shadow: 0 0 0 2px rgba(107,70,193,0.2); }
+        .analysis-box h3 { font-size: 1.1rem; color: #1a365d; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; margin-top: 0; margin-bottom: 12px; font-weight: bold; }
+        .analysis-desc { display: block; width: 100%; background: #2b6cb0; color: white; padding: 12px 15px; border-radius: 6px; margin-bottom: 12px; font-weight: bold; outline: none; text-align: left; }
+        .analysis-extra { width: 100%; padding: 10px 15px; border: 1px dashed #cbd5e0; border-radius: 6px; background: #f8fafc; outline: none; color: #4a5568; min-height: 5em; }
+        .analysis-extra:focus { background: #fffbdd; }
+        @media (min-width: 768px) { .detail-bottom-wrap { flex-direction: row; align-items: stretch; } .detail-radar-box { margin: 0; } }
+
+        .memo-lead { max-width: 980px; margin: 0 auto 15px; background:#ffffff; border-radius:8px; padding:12px 15px; box-shadow:0 3px 8px rgba(0,0,0,0.06); font-size:0.9rem; color:#2d3748; }
+        .memo-section-title { margin:0 0 10px; font-size:1.05rem; color:#1a365d; font-weight:bold; border-bottom:1px dashed #cbd5e0; padding-bottom:7px; }
+        .memo-bullets { margin:8px 0 8px 0; padding-left:20px; line-height:1.75; }
+        .memo-point { background:#fffaf0; border:1px solid #fbd38d; border-radius:6px; padding:9px 11px; margin-top:9px; font-weight:bold; color:#744210; }
+        .data-item { margin-bottom:12px; }
+        .data-item:last-child { margin-bottom:0; }
+        .final-picks { max-width:980px; margin:0 auto 20px; background:#ffffff; padding:15px; border-radius:8px; box-shadow:0 3px 8px rgba(0,0,0,0.06); border-top:4px solid #c53030; }
+        .final-picks h2 { margin:0 0 12px; font-size:1.1rem; color:#1a365d; }
+        .pick-card { border:1px solid #e2e8f0; border-radius:7px; padding:11px 12px; margin-bottom:9px; line-height:1.6; font-size:0.88rem; }
+        .pick-card:last-child { margin-bottom:0; }
+        .pick-name { font-weight:bold; color:#1a365d; font-size:0.95rem; margin-bottom:4px; }
+
+
+        /* 期待値メモ */
+        .ev-section { max-width: 980px; margin: 0 auto 18px; background:#fff; padding:15px; border-radius:8px; box-shadow:0 3px 8px rgba(0,0,0,.06); border-top:4px solid #d69e2e; }
+        .ev-section h2 { margin:0 0 10px; font-size:1.12rem; color:#744210; }
+        .ev-summary-grid { display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:12px; }
+        @media (min-width:640px){ .ev-summary-grid { grid-template-columns:repeat(3,1fr); } }
+        .ev-summary-card { background:#fffaf0; border:1px solid #fbd38d; border-radius:7px; padding:10px 12px; }
+        .ev-summary-label { font-size:.74rem; color:#975a16; font-weight:bold; margin-bottom:3px; }
+        .ev-summary-value { font-size:1.12rem; color:#2d3748; font-weight:bold; }
+        .ev-summary-sub { font-size:.72rem; color:#718096; margin-top:3px; line-height:1.4; }
+        .ev-control-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:8px 0 12px; padding:8px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; font-size:.82rem; }
+        .ev-control-row input { width:64px; border:1px solid #cbd5e0; border-radius:4px; padding:4px 6px; font-weight:bold; text-align:center; }
+        .ev-control-row select { border:1px solid #cbd5e0; border-radius:5px; padding:5px 28px 5px 8px; font-weight:bold; color:#2d3748; background:#fff; cursor:pointer; }
+        .bet-switch { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:4px 0 10px; }
+        .bet-switch label { font-size:.8rem; font-weight:bold; color:#4a5568; }
+        .bet-switch select { min-width:130px; border:2px solid #d69e2e; border-radius:6px; padding:7px 28px 7px 9px; font-size:.88rem; font-weight:bold; color:#744210; background:#fffaf0; cursor:pointer; }
+        .auto-normalize-note { background:#ebf8ff; border:1px solid #bee3f8; color:#2b6cb0; border-radius:6px; padding:7px 9px; font-size:.74rem; line-height:1.45; margin:8px 0 10px; }
+        .ev-subtitle { font-size:.92rem; font-weight:bold; color:#2d3748; margin:14px 0 7px; border-left:4px solid #d69e2e; padding-left:7px; }
+        .ev-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+        .ev-table { width:100%; border-collapse:collapse; min-width:430px; font-size:.78rem; }
+        .ev-table th, .ev-table td { border-bottom:1px solid #e2e8f0; padding:7px 6px; text-align:right; white-space:nowrap; }
+        .ev-table th { background:#f8fafc; color:#4a5568; font-size:.72rem; }
+        .ev-table th:first-child, .ev-table td:first-child, .ev-table th:nth-child(2), .ev-table td:nth-child(2) { text-align:left; }
+        .ev-combo { font-weight:bold; color:#1a365d; letter-spacing:.02em; }
+        .ev-input { width:76px; border:1px solid #cbd5e0; border-radius:4px; padding:4px 5px; text-align:right; font-weight:bold; }
+        .ev-good { color:#c53030; font-weight:bold; }
+        .ev-neutral { color:#718096; }
+        .ev-note { margin-top:9px; font-size:.72rem; color:#718096; line-height:1.5; }
+
+    </style>
+</head>
+<body>
+
+<button class="floating-save-btn" onclick="triggerSave(true)">保存する</button>
+
+<div class="page-title">
+    <span>日本テレビ盃 <small style="font-size:0.7rem;color:#718096;">枠順確定後メモ</small></span>
+    <span class="system-msg" id="save-msg">✓ 保存しました</span>
+</div>
+<div class="page-subtitle">船橋 ダ1800m (左) / JpnII / 3歳以上 別定 / 9頭 / 2026年9月30日 20:05発走</div>
+
+<div style="max-width: 980px; margin: 0 auto 15px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px;">
+        <div class="condition-badge">
+            <span class="badge-label">馬場:</span>
+            <select id="track-cond" class="badge-select">
+                <option value="未確定">未確定</option>
+                <option value="良">良</option>
+                <option value="稍重">稍重</option>
+                <option value="重">重</option>
+                <option value="不良" selected>不良</option>
+            </select>
+        </div>
+        <div class="condition-badge">
+            <span class="badge-label">ペース:</span>
+            <select id="race-pace" class="badge-select">
+                <option value="Sペース">Sペース</option>
+                <option value="Mペース">Mペース</option>
+                <option value="Hペース" selected>Hペース</option>
+            </select>
+        </div>
+        <div class="course-badge">
+                <span>船橋ダ1800m（左）</span><small style="font-size:0.68rem;color:#718096;">4角ポケット発走・直線308m</small>
+                <img src="data:image/png;base64,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" alt="船橋ダ1800m コース図" style="width:120px;height:auto;margin-top:4px;object-fit:contain;">
+            </div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+        <div class="condition-badge">
+            <span class="badge-label">馬場傾向:</span>
+            <span id="track-bias-short" contenteditable="true" class="badge-editable">不良想定・内前優勢／先行＋持ち時計重視</span>
+        </div>
+    </div>
+</div>
+
+<div class="memo-lead">
+    <div style="font-weight:bold;font-size:1rem;color:#1a365d;margin-bottom:4px;">🏇 日本テレビ盃2026｜枠順確定後メモ</div>
+    <div>船橋ダート1800m・左回り。今回は<strong>【9頭立て・枠順確定】</strong>でのチェックです。</div>
+</div>
+
+<div class="overview-container">
+    <div class="overview-text">
+        <h2 class="memo-section-title">🏟️ 馬場想定・トラックバイアス</h2>
+        <div class="track-bias-box" contenteditable="true" data-id="ac-track-bias">
+            前日の船橋は水が浮く不良馬場。現段階ではかなり明確に<strong>【内・前重視】</strong>で考えます。<br>
+            後ろからでは届きにくく、前へ行けない馬には厳しい馬場を想定。特に以下を重視します。
+            <ul class="memo-bullets">
+                <li>逃げ、先行して前を取れる馬</li>
+                <li>内でロスなく立ち回れる馬</li>
+                <li>不良馬場でもスピードを落とさない馬</li>
+                <li>1800m前後で速い持ち時計がある馬</li>
+            </ul>
+            <div class="memo-point">👉 単純な能力比較だけでなく【不良馬場適性 ＋ 先行力 ＋ 持ち時計】を強く評価。後方からの差し一辺倒より、早い段階で好位まで取れる馬を狙いたいレースです。</div>
+        </div>
+
+        <div class="data-room-box">
+            <h2 class="memo-section-title" style="margin-top:0;">📊 過去のデータ傾向</h2>
+            <div contenteditable="true" data-id="data-room-list">
+                <div class="data-item"><strong>① 上位人気が安定</strong><br>過去10回で1番人気は3着内率70%、3番人気は3着内率80%。基本は上位人気中心ですが、馬場や展開次第で伏兵の食い込みも。穴を狙うなら「馬場や展開が強く味方する馬」に絞りたいところ。</div>
+                <div class="data-item"><strong>② JRAの中距離実績馬が中心</strong><br>過去10回すべてで「JRA栗東所属馬」が連対。また、JRAの5～6歳馬が3着内率75%と非常に安定しており、中距離GⅠ/JpnⅠ好走馬がそのまま結果を残すケースが目立ちます。</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tab-pace" class="tab-content active" style="border-radius:8px;">
+    <div class="pace-board-header">
+        <h3 style="display:flex;align-items:center;gap:8px;">馬群展開予測 <span style="font-size:0.75rem;color:#718096;font-weight:normal;">※長押しで移動</span></h3>
+        <div class="condition-badge" style="margin:0;box-shadow:none;border:1px solid #cbd5e0;">
+            <span class="badge-label">ペース:</span>
+            <select id="pace-board-select" class="badge-select">
+                <option value="Sペース">Sペース</option>
+                <option value="Mペース">Mペース</option>
+                <option value="Hペース" selected>Hペース</option>
+            </select>
+        </div>
+    </div>
+    <div id="pace-board-content"></div>
+</div>
+
+<div class="section-heading">⬟ 五角形評価・各馬詳細</div>
+<div class="summary-section">
+    <div class="vs-grid" id="vs-grid"></div>
+</div>
+
+<div id="tab-winrate" class="tab-content active" style="border-radius:8px;">
+    <div class="win-rate-header">
+        <h3 style="margin:0;font-size:1.1rem;color:#2d3748;">推定勝率（馬番順）・単勝EV1オッズ</h3>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="adjust-wr-btn" onclick="adjustWinRates()" style="margin:0;">合計100%に補正</button>
+            <div class="total-rate" id="total-rate-display">合計: 100%</div>
+        </div>
+    </div>
+    <div class="live-note">勝率の＋／－や数値入力は<strong>その場で自動反映</strong>。下の券種別TOP10・EV1オッズも同時に更新されます。<strong>合計が100%でなくても計算可能</strong>で、計算時に内部で自動的に100%換算します。</div>
+    <div id="winrate-list"></div>
+</div>
+
+<div class="ev-section" id="ev-section">
+    <h2>💰 券種別 出現率検証</h2>
+
+    <div id="ev-summary-grid" class="ev-summary-grid" style="margin-top:10px;"></div>
+
+    <div class="auto-normalize-note">
+        勝率合計が100%でなくても計算できます。現在の入力比率を内部で100%換算し、勝率を変えるたびにTOP10とEV1オッズを自動更新します。
+    </div>
+
+    <div class="ev-control-row">
+        <div class="bet-switch" style="margin:0;">
+            <label for="bet-type-select">券種:</label>
+            <select id="bet-type-select" onchange="changeBetType()">
+                <option value="umaren" selected>馬連</option>
+                <option value="wide">ワイド</option>
+                <option value="umatan">馬単</option>
+                <option value="trio">3連複</option>
+                <option value="trifecta">3連単</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="ev-subtitle" id="bet-ranking-title">馬連｜出現率 TOP10</div>
+    <div class="ev-table-wrap">
+        <table class="ev-table">
+            <thead><tr><th>順位</th><th>組合せ</th><th>出現率</th><th>EV1オッズ</th></tr></thead>
+            <tbody id="bet-top10-body"></tbody>
+        </table>
+    </div>
+    <div class="ev-note">馬連・ワイド・馬単・3連複・3連単をプルダウンで切替。上の推定勝率と連動してTOP10を自動再計算します。</div>
+</div>
+
+<div class="final-picks">
+    <h2>🎯 最後に注目3頭</h2>
+    <div class="pick-card">
+        <div class="pick-name">🥇 ミッキーファイト（7枠7番）</div>
+        今回の絶対的な中心。「前有利 ＋ 不良馬場 ＋ 高速時計」という今回のシビアな条件を、能力だけでなく適性と実績のすべてで高次元にクリアしています。逆らいづらい存在です。
+    </div>
+    <div class="pick-card">
+        <div class="pick-name">🥈 ロードクロンヌ（8枠8番）</div>
+        最大の武器は1800mの「1分51秒0」という持ち時計。不良馬場で時計勝負になればなるほど、このスピードが活きてきます。前にも行けるため、ミッキーファイトを脅かせる最有力候補。
+    </div>
+    <div class="pick-card">
+        <div class="pick-name">🥉 ベアバッキューン（6枠6番）</div>
+        穴として狙うならここ。1800mへの距離延長という課題はありますが、今回の不良馬場では「自分から前へ行けること」自体が強烈な武器になります。能力比較だけでは拾えない前残りに警戒したい一頭です。
+    </div>
+</div>
+
+
+<div id="modal-container" class="modal-container">
+    <div class="modal-header">
+        <button class="modal-back-btn" onclick="closeModal()">一覧に戻る</button>
+        <span id="modal-title" class="modal-title">詳細情報</span>
+    </div>
+    <div id="horses-container" class="modal-body"></div>
+</div>
+
+<script>
+const defaultBg = '#f1f5f9', defaultText = '#2d3748', defaultBorder = '1px solid #cbd5e0';
+
+// 枠順確定済み。h.waku（1〜8枠）に応じて枠色を反映。
+function applyWakuStyle(h) {
+    const frame = parseInt(h.waku);
+    const styles = {
+        1:{bg:'#ffffff',text:'#333333',border:'1px solid #a0aec0'},
+        2:{bg:'#1a202c',text:'#ffffff',border:'none'},
+        3:{bg:'#e53e3e',text:'#ffffff',border:'none'},
+        4:{bg:'#2b6cb0',text:'#ffffff',border:'none'},
+        5:{bg:'#ecc94b',text:'#333333',border:'none'},
+        6:{bg:'#38a169',text:'#ffffff',border:'none'},
+        7:{bg:'#ed8936',text:'#ffffff',border:'none'},
+        8:{bg:'#ed64a6',text:'#ffffff',border:'none'}
+    };
+    Object.assign(h, styles[frame] || {bg:defaultBg,text:defaultText,border:defaultBorder});
+}
+
+// ★ 日本テレビ盃 9頭：枠順確定・前日オッズ・過去3走
+const HORSE_DATA = [
+  {
+    "key": "h1",
+    "name": "グランデマーレ",
+    "waku": 1,
+    "num": 1,
+    "color": "#718096",
+    "odds": 286.2,
+    "pop": 6,
+    "jockey": "岡村健司 56.0",
+    "trainer": "船橋・山本学",
+    "sire": "ロードカナロア",
+    "mother": "グランデアモーレ",
+    "damsire": "ネオユニヴァース",
+    "pos": "追込",
+    "posLabel": "追込（後方待機）",
+    "descBlood": "父ロードカナロア×母父ネオユニヴァース。父のスピードに母父のパワーを加えた構成ですが、芝色が強く純粋なダート中距離型とは言い難い配合です。",
+    "descRace": "近走は重賞・ダートグレードで大きな着差が続く。今回は相手強化で、まずは近走からの変わり身が焦点。",
+    "stableTalk": "大きな上積みを強調する材料は少なく、現状の力でどこまで差を詰められるかという位置づけ。",
+    "descExtra": "最内枠はプラスに働くものの、近走は苦しい競馬が続いており時計比較でも劣ります。馬場を活かすには内から前へ行く必要があり、後方に置かれると最内のメリットが生きない懸念があります。",
+    "races": [
+      {
+        "title": "08/26 フリオーソレジェンドC",
+        "track": "船橋 ダ1800 左 良",
+        "jockey": "木間塚龍馬 56.0",
+        "pass": "(13-13-13-13)",
+        "res": "13着",
+        "time": "2:04.5",
+        "agari": "47.4",
+        "rivalType": "1着",
+        "rival": "リベイクフルシティ",
+        "diff": "11.2"
+      },
+      {
+        "title": "06/03 短夜賞",
+        "track": "船橋 ダ1700 左 不",
+        "jockey": "岡村健司 56.0",
+        "pass": "(10-10-11-14)",
+        "res": "14着",
+        "time": "1:55.0",
+        "agari": "44.4",
+        "rivalType": "1着",
+        "rival": "アランバローズ",
+        "diff": "7.9"
+      },
+      {
+        "title": "05/05 かしわ記念 JpnI",
+        "track": "船橋 ダ1600 左 良",
+        "jockey": "岡村健司 57.0",
+        "pass": "(12-12-12-13)",
+        "res": "13着",
+        "time": "1:46.6",
+        "agari": "42.3",
+        "rivalType": "1着",
+        "rival": "ウィルソンテソーロ",
+        "diff": "8.0"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h2",
+    "name": "テーオーマルコーニ",
+    "waku": 2,
+    "num": 2,
+    "color": "#2b6cb0",
+    "odds": 16.4,
+    "pop": 3,
+    "jockey": "岩田望来 56.0",
+    "trainer": "栗東・奥村豊",
+    "sire": "コパノリッキー",
+    "mother": "リーグルメアリー",
+    "damsire": "Afternoon Deelites",
+    "pos": "差し",
+    "posLabel": "好位差し（平均3～4番手）",
+    "descBlood": "父コパノリッキー×母父Afternoon Deelites。ダートでの先行力・パワー・スピード持続力が期待でき、高速化しやすい不良ダートにも合う血統です。",
+    "descRace": "3勝クラスを勝って重賞初挑戦。直近3走は1着・2着・1着で、1800〜1900mの内容は安定している。",
+    "stableTalk": "休養を挟んで走りに安定感が増しており、左回りを狙って使う臨戦。直前まで順調に負荷を積めている。",
+    "descExtra": "近走1800～1900mで安定し、ダート1800mで1分51秒4の持ち時計があります。「内枠・先行力・不良馬場・持ち時計」と重視する条件が揃っており、相手強化でも馬場適性で評価を上げたい一頭です。",
+    "races": [
+      {
+        "title": "05/30 桃山S",
+        "track": "京都 ダ1800 右 良",
+        "jockey": "団野大成 57.0",
+        "pass": "(3-3-4-3)",
+        "res": "1着",
+        "time": "1:51.4",
+        "agari": "35.1",
+        "rivalType": "2着",
+        "rival": "アレナパラシオ",
+        "diff": "0.3"
+      },
+      {
+        "title": "03/29 伊勢S",
+        "track": "中京 ダ1900 左 良",
+        "jockey": "高杉吏麒 56.0",
+        "pass": "(5-5-5-5)",
+        "res": "2着",
+        "time": "1:58.7",
+        "agari": "36.6",
+        "rivalType": "1着",
+        "rival": "ゴールデンクラウド",
+        "diff": "0.1"
+      },
+      {
+        "title": "03/14 中京スポーツ杯",
+        "track": "中京 ダ1800 左 良",
+        "jockey": "高杉吏麒 57.0",
+        "pass": "(4-3-6-6)",
+        "res": "1着",
+        "time": "1:54.1",
+        "agari": "36.2",
+        "rivalType": "2着",
+        "rival": "スマートスピア",
+        "diff": "0.0"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h3",
+    "name": "ガバナビリティー",
+    "waku": 3,
+    "num": 3,
+    "color": "#805ad5",
+    "odds": 381.6,
+    "pop": 8,
+    "jockey": "笠野雄大 56.0",
+    "trainer": "船橋・佐藤裕太",
+    "sire": "シニスターミニスター",
+    "mother": "グローリアスヴォレ",
+    "damsire": "サウスヴィグラス",
+    "pos": "先行",
+    "posLabel": "差し・中団（平均6～7番手）",
+    "descBlood": "父シニスターミニスター×母父サウスヴィグラス。ダート色が非常に濃く、地方ダートで前々からスピードを生かす競馬に向く組み合わせです。",
+    "descRace": "船橋1800mで勝ち星はあるが、直近のフリオーソレジェンドCは12着。今回はJpnIIで相手関係がさらに強化される。",
+    "stableTalk": "予定したローテーションでここへ。状態は維持できているが、今回は相手関係が一段強くなる。",
+    "descExtra": "同コースでの勝利経験や湿った馬場への対応力があり、3番枠も好条件。ただ中央上位勢と比較すると時計・近走パフォーマンスで見劣りし、速い時計の勝負で最後まで残れるかが課題になります。",
+    "races": [
+      {
+        "title": "08/26 フリオーソレジェンドC",
+        "track": "船橋 ダ1800 左 良",
+        "jockey": "矢野貴之 56.0",
+        "pass": "(3-3-7-12)",
+        "res": "12着",
+        "time": "1:56.8",
+        "agari": "42.5",
+        "rivalType": "1着",
+        "rival": "リベイクフルシティ",
+        "diff": "3.5"
+      },
+      {
+        "title": "08/04 ひまわり賞",
+        "track": "船橋 ダ1800 左 良",
+        "jockey": "笠野雄大 56.0",
+        "pass": "(1-2-2-3)",
+        "res": "4着",
+        "time": "1:58.1",
+        "agari": "38.8",
+        "rivalType": "1着",
+        "rival": "ヒーローコール",
+        "diff": "0.9"
+      },
+      {
+        "title": "07/09 スパーキングサマーC",
+        "track": "川崎 ダ1600 左 良",
+        "jockey": "笠野雄大 57.0",
+        "pass": "(4-3-4-5)",
+        "res": "13着",
+        "time": "1:44.3",
+        "agari": "41.6",
+        "rivalType": "1着",
+        "rival": "ベアバッキューン",
+        "diff": "2.9"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h4",
+    "name": "カゼノランナー",
+    "waku": 4,
+    "num": 4,
+    "color": "#d69e2e",
+    "odds": 27.9,
+    "pop": 4,
+    "jockey": "西村淳也 58.0",
+    "trainer": "栗東・松永幹夫",
+    "sire": "キズナ",
+    "mother": "ヴァイセフラウ",
+    "damsire": "キングカメハメハ",
+    "pos": "先行",
+    "posLabel": "先行（平均2番手）",
+    "descBlood": "父キズナ×母父キングカメハメハ。父の持続力とパワーに母父の総合力を加えた、前々から長く脚を使うダート競馬に合う配合です。",
+    "descRace": "今年の川崎記念JpnIと佐賀記念JpnIIIを連勝。前走の帝王賞は9着だが、交流重賞での実績は上位。",
+    "stableTalk": "実戦で力を出すタイプで、最終調整も予定通り。左回りの小回り替わりを好材料として臨める状態。",
+    "descExtra": "佐賀記念・川崎記念を制した実力馬。前走帝王賞9着からの条件替わりで、4番枠から先団へ入りやすく前有利のバイアスに合致します。1800mで1分53秒1があり速い馬場も対応可能。巻き返しに期待できる一頭です。",
+    "races": [
+      {
+        "title": "07/01 帝王賞 JpnI",
+        "track": "大井 ダ2000 右 稍",
+        "jockey": "西村淳也 57.0",
+        "pass": "(2-2-2-1)",
+        "res": "9着",
+        "time": "2:04.7",
+        "agari": "39.2",
+        "rivalType": "1着",
+        "rival": "ミッキーファイト",
+        "diff": "1.9"
+      },
+      {
+        "title": "04/08 川崎記念 JpnI",
+        "track": "川崎 ダ2100 左 稍",
+        "jockey": "西村淳也 57.0",
+        "pass": "(1-1-1-1)",
+        "res": "1着",
+        "time": "2:14.6",
+        "agari": "38.4",
+        "rivalType": "2着",
+        "rival": "ドゥラエレーデ",
+        "diff": "0.4"
+      },
+      {
+        "title": "02/12 佐賀記念 JpnIII",
+        "track": "佐賀 ダ2000 右 稍",
+        "jockey": "西村淳也 56.0",
+        "pass": "(2-2-1-1)",
+        "res": "1着",
+        "time": "2:07.4",
+        "agari": "38.0",
+        "rivalType": "2着",
+        "rival": "メイショウフンジン",
+        "diff": "1.1"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h5",
+    "name": "アルラ",
+    "waku": 5,
+    "num": 5,
+    "color": "#38a169",
+    "odds": 408.9,
+    "pop": 9,
+    "jockey": "本田正重 56.0",
+    "trainer": "浦和・箕輪武",
+    "sire": "ベルシャザール",
+    "mother": "グリーディー",
+    "damsire": "シャンハイ",
+    "pos": "差し",
+    "posLabel": "差し・後方（平均7番手）",
+    "descBlood": "父ベルシャザール×母父シャンハイ。瞬間的なスピードよりも、ダート中距離でパワーと持続力を生かし長く脚を使う形に向きます。",
+    "descRace": "船橋1800mは1勝2着1回と相性が良い。近走は浦和中心だが、春のこぼれ桜特別で船橋1800mを2着。",
+    "stableTalk": "大幅な上積みを示す材料よりも、現状のコンディションを保って格上相手に挑む形。",
+    "descExtra": "船橋1800mは1勝・2着1回とコース適性あり。道悪も苦にしませんが、今回は「前に行けること」が最重要。中団より後ろから運ぶ形になると、前が止まらずに出番がないリスクを抱えています。",
+    "races": [
+      {
+        "title": "07/15 '26トワイライトC",
+        "track": "浦和 ダ1400 左 良",
+        "jockey": "本田正重 55.0",
+        "pass": "(6-6-6-6)",
+        "res": "2着",
+        "time": "1:27.3",
+        "agari": "36.3",
+        "rivalType": "1着",
+        "rival": "アウストロ",
+        "diff": "0.7"
+      },
+      {
+        "title": "04/23 '26武蔵国OP",
+        "track": "浦和 ダ2000 左 稍",
+        "jockey": "野畑凌 55.0",
+        "pass": "(8-8-8-5)",
+        "res": "5着",
+        "time": "2:09.1",
+        "agari": "38.8",
+        "rivalType": "1着",
+        "rival": "オピニオンリーダー",
+        "diff": "1.8"
+      },
+      {
+        "title": "04/02 こぼれ桜特別",
+        "track": "船橋 ダ1800 左 不",
+        "jockey": "藤田凌 57.0",
+        "pass": "(4-2-2-1)",
+        "res": "2着",
+        "time": "1:56.7",
+        "agari": "40.6",
+        "rivalType": "1着",
+        "rival": "ジルバーン",
+        "diff": "0.0"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h6",
+    "name": "ベアバッキューン",
+    "waku": 6,
+    "num": 6,
+    "color": "#e53e3e",
+    "odds": 55.5,
+    "pop": 5,
+    "jockey": "野畑凌 56.0",
+    "trainer": "川崎・鈴木義久",
+    "sire": "モズアスコット",
+    "mother": "ゴールドマッシモ",
+    "damsire": "ネオユニヴァース",
+    "pos": "逃げ",
+    "posLabel": "逃げ（平均1番手）",
+    "descBlood": "父モズアスコット×母父ネオユニヴァース。父のスピード性能に母父のパワーを加え、速いダートでスピードを押し出す形が合う血統です。",
+    "descRace": "川崎1600mの重賞を2連勝中。今回は初の1800mで、JRAの中距離実績馬を相手に距離延長への対応が鍵。",
+    "stableTalk": "ここを目標に十分な負荷をかけてきた。先手を取って自分のリズムに持ち込める仕上がりを意識。",
+    "descExtra": "川崎1600mを連勝中で、最大の魅力は自分からハナへ行けること。主戦場が1600m以下で1800mの持ち時計がない点は不安材料ですが、前が止まらない不良馬場なら逃げ脚自体が大きな武器に。穴候補として面白い存在です。",
+    "races": [
+      {
+        "title": "08/19 スパーキングサマーC",
+        "track": "川崎 ダ1600 左 良",
+        "jockey": "野畑凌 57.0",
+        "pass": "(1-1-1-1)",
+        "res": "1着",
+        "time": "1:40.7",
+        "agari": "38.9",
+        "rivalType": "2着",
+        "rival": "サヨノネイチヤ",
+        "diff": "0.4"
+      },
+      {
+        "title": "07/09 スパーキングサマーC TR",
+        "track": "川崎 ダ1600 左 良",
+        "jockey": "野畑凌 57.0",
+        "pass": "(1-1-1-1)",
+        "res": "1着",
+        "time": "1:41.4",
+        "agari": "39.1",
+        "rivalType": "2着",
+        "rival": "ランリョウオー",
+        "diff": "1.1"
+      },
+      {
+        "title": "05/27 プラチナC",
+        "track": "浦和 ダ1400 左 良",
+        "jockey": "野畑凌 56.0",
+        "pass": "(4-4-6-11)",
+        "res": "12着",
+        "time": "1:30.0",
+        "agari": "40.3",
+        "rivalType": "1着",
+        "rival": "イグザルト",
+        "diff": "3.2"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h7",
+    "name": "ミッキーファイト",
+    "waku": 7,
+    "num": 7,
+    "color": "#c53030",
+    "odds": 1.0,
+    "pop": 1,
+    "jockey": "戸崎圭太 58.0",
+    "trainer": "美浦・田中博康",
+    "sire": "ドレフォン",
+    "mother": "スペシャルグルーヴ",
+    "damsire": "スペシャルウィーク",
+    "pos": "先行",
+    "posLabel": "先行・好位（平均3番手）",
+    "descBlood": "父ドレフォン×母父スペシャルウィーク。父のダートスピードに母系の持続力と底力を補い、高いレベルでこなせる構成です。",
+    "descRace": "帝王賞連覇中で、昨年のJBCクラシックも勝利。船橋ではJBCクラシック1着、今年のかしわ記念2着とコース実績も高い。",
+    "stableTalk": "立ち上げ時は暑さの影響が残ったが、直前は上向き。次走も見据えた始動戦で、仕上げ切った状態ではないものの競走できる水準まで戻してきた。",
+    "descExtra": "帝王賞連覇、JBCクラシック勝ちなど能力は最上位。船橋1800mで1分52秒0の勝利経験もあり、「先行力・不良適性・船橋適性・時計」をすべて高次元で満たします。9頭立ての7枠なら問題なく、今回の大中心です。",
+    "races": [
+      {
+        "title": "07/01 帝王賞 JpnI",
+        "track": "大井 ダ2000 右 稍",
+        "jockey": "戸崎圭太 57.0",
+        "pass": "(3-3-3-3)",
+        "res": "1着",
+        "time": "2:02.8",
+        "agari": "37.1",
+        "rivalType": "2着",
+        "rival": "アウトレンジ",
+        "diff": "0.3"
+      },
+      {
+        "title": "05/05 かしわ記念 JpnI",
+        "track": "船橋 ダ1600 左 良",
+        "jockey": "C.ルメール 57.0",
+        "pass": "(4-3-3-3)",
+        "res": "2着",
+        "time": "1:38.7",
+        "agari": "37.9",
+        "rivalType": "1着",
+        "rival": "ウィルソンテソーロ",
+        "diff": "0.1"
+      },
+      {
+        "title": "12/29 東京大賞典 GI",
+        "track": "大井 ダ2000 右 重",
+        "jockey": "C.ルメール 57.0",
+        "pass": "(6-6-3-3)",
+        "res": "2着",
+        "time": "2:04.3",
+        "agari": "38.4",
+        "rivalType": "1着",
+        "rival": "ディクテオン",
+        "diff": "0.0"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h8",
+    "name": "ロードクロンヌ",
+    "waku": 8,
+    "num": 8,
+    "color": "#3182ce",
+    "odds": 16.3,
+    "pop": 2,
+    "jockey": "横山和生 57.0",
+    "trainer": "栗東・四位洋文",
+    "sire": "リオンディーズ",
+    "mother": "リラコサージュ",
+    "damsire": "ブライアンズタイム",
+    "pos": "先行",
+    "posLabel": "先行（平均2〜3番手）",
+    "descBlood": "父リオンディーズ×母父ブライアンズタイム。父のスピードと機動力に母父のパワーと持久力をプラスし、先行しながら長く脚を使う形に向きます。",
+    "descRace": "平安Sを勝ち、帝王賞は6着。1800mではプロキオンS勝ちもあり、中央重賞級の能力と距離実績を持つ。",
+    "stableTalk": "強めの調整を消化し、その後も予定通り。1800mで力を出すための態勢は整っている。",
+    "descExtra": "平安S・プロキオンSを勝っており実績十分。何よりダート1800m・1分51秒0の持ち時計が非常に優秀で、時計の速い不良馬場は大きな武器に。少頭数なら8枠のリスクも小さく、条件にかなりフィットする一頭です。",
+    "races": [
+      {
+        "title": "07/01 帝王賞 JpnI",
+        "track": "大井 ダ2000 右 稍",
+        "jockey": "横山和生 57.0",
+        "pass": "(3-3-3-4)",
+        "res": "6着",
+        "time": "2:03.6",
+        "agari": "37.8",
+        "rivalType": "1着",
+        "rival": "ミッキーファイト",
+        "diff": "0.8"
+      },
+      {
+        "title": "05/23 平安S GIII",
+        "track": "京都 ダ1900 右 稍",
+        "jockey": "横山和生 58.0",
+        "pass": "(2-2-2-2)",
+        "res": "1着",
+        "time": "1:56.9",
+        "agari": "37.7",
+        "rivalType": "2着",
+        "rival": "ヴァルツァーシャル",
+        "diff": "0.6"
+      },
+      {
+        "title": "02/22 フェブラリーS GI",
+        "track": "東京 ダ1600 左 良",
+        "jockey": "横山和生 58.0",
+        "pass": "(2-2)",
+        "res": "11着",
+        "time": "1:36.7",
+        "agari": "37.5",
+        "rivalType": "1着",
+        "rival": "コスタノヴァ",
+        "diff": "1.3"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  },
+  {
+    "key": "h9",
+    "name": "リュードマン",
+    "waku": 8,
+    "num": 9,
+    "color": "#805ad5",
+    "odds": 336.7,
+    "pop": 7,
+    "jockey": "所蛍 56.0",
+    "trainer": "船橋・矢内博",
+    "sire": "フリオーソ",
+    "mother": "オープンシャッセ",
+    "damsire": "ダンスインザダーク",
+    "pos": "追込",
+    "posLabel": "追込（後方待機）",
+    "descBlood": "父フリオーソ×母父ダンスインザダーク。地方ダートへの適性とスタミナを備え、時計勝負よりタフな条件で長く脚を使う形が合うタイプです。",
+    "descRace": "船橋1800mは4戦未勝利。前走かしわ記念12着から約20週ぶりで、JpnIIの相手関係では近走以上の上積みが必要。",
+    "stableTalk": "久々の実戦で、まずは自分のリズムを崩さず走れるかが先。交流重賞で相手も強く、叩き台の要素がある。",
+    "descExtra": "湿ったダートへの対応経験はありますが、持ち時計の比較では中央上位勢と差があります。大外枠から後方寄りになると想定する内前有利の馬場と逆行するため、前が激しく崩れる展開にならないと厳しい見立てです。",
+    "races": [
+      {
+        "title": "05/05 かしわ記念 JpnI",
+        "track": "船橋 ダ1600 左 良",
+        "jockey": "篠谷葵 57.0",
+        "pass": "(13-13-13-12)",
+        "res": "12着",
+        "time": "1:43.2",
+        "agari": "38.5",
+        "rivalType": "1着",
+        "rival": "ウィルソンテソーロ",
+        "diff": "4.6"
+      },
+      {
+        "title": "04/03 春和景明特別",
+        "track": "船橋 ダ1600 左 稍",
+        "jockey": "篠谷葵 57.0",
+        "pass": "(9-8-10-10)",
+        "res": "5着",
+        "time": "1:45.0",
+        "agari": "38.3",
+        "rivalType": "1着",
+        "rival": "プラズマ",
+        "diff": "0.8"
+      },
+      {
+        "title": "03/13 3月22日記念",
+        "track": "船橋 ダ1800 左 良",
+        "jockey": "篠谷葵 56.0",
+        "pass": "(8-7-7-5)",
+        "res": "5着",
+        "time": "1:57.7",
+        "agari": "39.7",
+        "rivalType": "1着",
+        "rival": "キタサンドーシン",
+        "diff": "1.7"
+      }
+    ],
+    "bg": "#f1f5f9",
+    "text": "#2d3748",
+    "border": "1px solid #cbd5e0"
+  }
+];
+
+// ▼ 強制キャッシュクリアのためにキーの末尾を _v3 に変更 ▼
+const STORE_NUMS = 'keibaNums_NipponTVHai_v5';
+const STORE_DATA = 'keibaData_NipponTVHai_v5';
+const STORE_RADAR = 'keibaRadar_NipponTVHai_v5';
+const STORE_MARK = 'keibaMark_NipponTVHai_v5';
+const STORE_SORT = 'keibaSort_NipponTVHai_v5';
+const STORE_RADAR_LABELS = 'keibaRadarLabels_NipponTVHai_v5';
+const STORE_WINRATES = 'keibaWinRates_NipponTVHai_v5';
+const STORE_COND_TRACK = 'keibaCondTrack_NipponTVHai_v5';
+const STORE_COND_PACE = 'keibaCondPace_NipponTVHai_v5';
+const STORE_COND_BIAS = 'keibaCondBias_NipponTVHai_v5';
+const STORE_PACE_STATE = 'keibaPaceState_NipponTVHai_v5';
+const STORE_ODDS = 'keibaOdds_NipponTVHai_v5';
+const STORE_EV_ODDS = 'keibaEvOdds_NipponTVHai_v5';
+const STORE_EV_TARGET = 'keibaEvTarget_NipponTVHai_v5';
+const STORE_BET_TYPE = 'keibaBetType_NipponTVHai_v6';
+
+// 枠番・馬番は確定値を初期表示
+let currentNums = {};
+HORSE_DATA.forEach(h => {
+    currentNums[h.key] = h.num;
+    h.numStr = `${h.num}`;
+    applyWakuStyle(h);
+});
+
+// レーダーチャート・印の初期化
+let appState = {};
+let markState = {};
+
+const defaultRadarLabels = ["能力", "出来", "枠番", "展開", "TB"];
+let currentRadarLabels = JSON.parse(localStorage.getItem(STORE_RADAR_LABELS)) || [...defaultRadarLabels];
+
+const factorOptionsList = ["能力", "出来", "枠番", "展開", "TB"];
+
+const initialScores = {
+    'h1': [1, 2, 3, 1, 1],
+    'h2': [4, 5, 5, 4, 4],
+    'h3': [1, 4, 4, 2, 3],
+    'h4': [5, 4, 5, 5, 4],
+    'h5': [2, 3, 3, 2, 3],
+    'h6': [3, 5, 4, 5, 4],
+    'h7': [5, 4, 5, 5, 5],
+    'h8': [5, 5, 3, 4, 5],
+    'h9': [1, 2, 2, 1, 1]
+};
+
+const savedRadar = localStorage.getItem(STORE_RADAR);
+if (savedRadar) {
+    appState = JSON.parse(savedRadar);
+} else {
+    HORSE_DATA.forEach(h => { appState[h.key] = initialScores[h.key] || [3, 3, 3, 3, 3]; });
+}
+
+HORSE_DATA.forEach(h => { markState[h.key] = ""; });
+const savedMark = localStorage.getItem(STORE_MARK); 
+if (savedMark) markState = JSON.parse(savedMark);
+
+let currentSort = 'number';
+let currentWinRates = JSON.parse(localStorage.getItem(STORE_WINRATES)) || {};
+const angles = [-90, -18, 54, 126, 198]; 
+const center = 100;
+const maxRadius = 80;
+const markRank = { "◎":1, "○":2, "▲":3, "△":4, "☆":5, "×":6, "消":7, "":8 };
+
+let currentPaceState = JSON.parse(localStorage.getItem(STORE_PACE_STATE));
+if (!currentPaceState) {
+    currentPaceState = { '逃げ':[], '先行':[], '差し':[], '追込':[], '後方':[] };
+    HORSE_DATA.forEach(h => { 
+        if (currentPaceState[h.pos]) { currentPaceState[h.pos].push(h.key); } 
+        else { if (h.pos === '後方') currentPaceState['追込'].push(h.key); } 
+    });
+} else {
+    HORSE_DATA.forEach(h => { ['逃げ', '先行', '差し', '追込'].forEach(p => { if (currentPaceState[p] && currentPaceState[p].includes(h.key)) h.pos = p; }); });
+}
+
+function getSortedHorses() {
+    return [...HORSE_DATA].sort((a, b) => {
+        if (currentSort === 'popular') return a.odds - b.odds;
+        if (currentSort === 'number') {
+            let nA = parseInt(a.num) || (a.pop + 100);
+            let nB = parseInt(b.num) || (b.pop + 100);
+            return nA - nB;
+        }
+        if (currentSort === 'score') {
+            const sA = appState[a.key].reduce((s, v) => s + v, 0), sB = appState[b.key].reduce((s, v) => s + v, 0);
+            if (sA !== sB) return sB - sA; return a.odds - b.odds; 
+        }
+        if (currentSort === 'mark') {
+            const rA = markRank[markState[a.key]] || 8, rB = markRank[markState[b.key]] || 8;
+            if (rA !== rB) return rA - rB; return a.odds - b.odds; 
+        }
+        return 0;
+    });
+}
+
+// 添付の基礎勝率グラフ。数値表示のない1・3・9番はユーザー指定どおり各1%扱い。
+const BASE_WIN_RATE_RAW = {
+    'h1': 1.0,
+    'h2': 6.9,
+    'h3': 1.0,
+    'h4': 12.7,
+    'h5': 3.6,
+    'h6': 6.1,
+    'h7': 62.0,
+    'h8': 20.3,
+    'h9': 1.0
+};
+
+function normalizeRates(source) {
+    const keys = HORSE_DATA.map(h => h.key);
+    const total = keys.reduce((sum, key) => sum + Math.max(0, Number(source[key]) || 0), 0);
+    if (total <= 0) return Object.fromEntries(keys.map(k => [k, 0]));
+    let floorTotal = 0;
+    const rows = keys.map(key => {
+        const exact = (Math.max(0, Number(source[key]) || 0) / total) * 100;
+        const floored = Math.floor(exact);
+        floorTotal += floored;
+        return { key, value: floored, remainder: exact - floored };
+    });
+    rows.sort((a, b) => b.remainder - a.remainder);
+    for (let i = 0; i < 100 - floorTotal; i++) rows[i % rows.length].value += 1;
+    const out = {};
+    rows.forEach(r => out[r.key] = r.value);
+    return out;
+}
+
+function calcWinRatesBase() {
+    return normalizeRates(BASE_WIN_RATE_RAW);
+}
+
+function getMarkOptions(selected) {
+    const marks = ["", "◎", "○", "▲", "△", "☆", "×", "消"];
+    return marks.map(m => `<option value="${m}" ${m===selected ? 'selected' : ''}>${m}</option>`).join('');
+}
+
+function renderFactorSelects() {
+    document.querySelectorAll('.factor-select').forEach((sel, i) => { sel.innerHTML = factorOptionsList.map(opt => `<option value="${opt}" ${opt === currentRadarLabels[i] ? 'selected' : ''}>${opt}</option>`).join(''); });
+}
+
+function savePaceBoardState() {
+    const positions = ['逃げ', '先行', '差し', '追込'];
+    positions.forEach(pos => {
+        const el = document.querySelector(`.pace-horses[data-pos="${pos}"]`);
+        if (el) { currentPaceState[pos] = Array.from(el.querySelectorAll('.pace-horse')).map(item => item.getAttribute('data-key')); }
+    });
+    localStorage.setItem(STORE_PACE_STATE, JSON.stringify(currentPaceState));
+    HORSE_DATA.forEach(h => { positions.forEach(pos => { if (currentPaceState[pos] && currentPaceState[pos].includes(h.key)) h.pos = pos; }); });
+    renderUI(); HORSE_DATA.forEach(h => updateRadar(h.key)); setupDynamicEvents();
+    HORSE_DATA.forEach(h => { document.querySelectorAll(`#ph-sum-${h.key}, #ph-det-${h.key}`).forEach(ph => ph.textContent = markState[h.key] ? '' : '印'); });
+    triggerSave();
+}
+
+function renderPaceBoard() {
+    const positions = ['逃げ', '先行', '差し', '追込'];
+    let html = '';
+    positions.forEach(pos => {
+        let horses = (currentPaceState[pos] || []).map(k => HORSE_DATA.find(h => h.key === k)).filter(Boolean);
+        html += `<div class="pace-row"><div class="pace-label">${pos}</div><div class="pace-horses" data-pos="${pos}">${horses.map(h => `<div class="pace-horse" data-key="${h.key}" onclick="openModal('${h.key}')" title="タップで詳細"><div class="pace-horse-num" style="background:${h.bg}; color:${h.text}; border:${h.border};">${h.num}</div><div class="pace-horse-name">${h.name.substring(0, 4)}</div></div>`).join('')}</div></div>`;
+    });
+    document.getElementById('pace-board-content').innerHTML = html;
+    if (window.Sortable) { document.querySelectorAll('.pace-horses').forEach(el => { new Sortable(el, { group: 'shared', animation: 150, delay: 150, delayOnTouchOnly: true, ghostClass: 'sortable-ghost', onEnd: function () { savePaceBoardState(); } }); }); }
+}
+
+function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btnElement.classList.add('active');
+}
+
+
+// ===== 券種別・期待値メモ =====
+function getStrengthMap() {
+    const rows = HORSE_DATA.map(h => ({ h, v: Math.max(0, Number(currentWinRates[h.key]) || 0) }));
+    const total = rows.reduce((s, r) => s + r.v, 0) || 1;
+    const out = {};
+    rows.forEach(r => out[r.h.key] = r.v / total);
+    return out;
+}
+
+function orderedFinishProb(keys, strength) {
+    let remain = 1;
+    let p = 1;
+    for (const key of keys) {
+        const w = strength[key] || 0;
+        if (w <= 0 || remain <= 0) return 0;
+        p *= w / remain;
+        remain -= w;
+    }
+    return p;
+}
+
+function permute(arr) {
+    if (arr.length <= 1) return [arr];
+    const out = [];
+    arr.forEach((v, i) => {
+        const rest = arr.slice(0, i).concat(arr.slice(i + 1));
+        permute(rest).forEach(p => out.push([v].concat(p)));
+    });
+    return out;
+}
+
+function unorderedFinishProb(keys, strength) {
+    return permute(keys).reduce((s, order) => s + orderedFinishProb(order, strength), 0);
+}
+
+function combos(arr, k) {
+    const out = [];
+    function rec(start, picked) {
+        if (picked.length === k) { out.push([...picked]); return; }
+        for (let i = start; i <= arr.length - (k - picked.length); i++) {
+            picked.push(arr[i]); rec(i + 1, picked); picked.pop();
+        }
+    }
+    rec(0, []); return out;
+}
+
+function orderedSelections(arr, k) {
+    const out = [];
+    function rec(picked, remain) {
+        if (picked.length === k) { out.push([...picked]); return; }
+        remain.forEach((v, i) => rec(picked.concat(v), remain.slice(0, i).concat(remain.slice(i + 1))));
+    }
+    rec([], arr); return out;
+}
+
+function horseNumByKey(key) {
+    const h = HORSE_DATA.find(x => x.key === key);
+    return h ? Number(h.num) : 99;
+}
+function horseLabelByKey(key) {
+    const h = HORSE_DATA.find(x => x.key === key);
+    return h ? `${h.num} ${h.name}` : key;
+}
+function comboNumLabel(keys, ordered=false) {
+    const nums = keys.map(k => horseNumByKey(k));
+    return ordered ? nums.join('→') : nums.sort((a,b)=>a-b).join('-');
+}
+function fmtPct(p) { return `${(p * 100).toFixed(1)}%`; }
+function fmtOdds(x) { return Number.isFinite(x) ? x.toFixed(x < 10 ? 2 : 1) : '—'; }
+function winEv1Odds(rate) { const p = Number(rate) / 100; return p > 0 ? 1 / p : Infinity; }
+function updateWinEv1(key) { const el = document.getElementById(`wr-ev1-${key}`); if (!el) return; const rate = Number(currentWinRates[key]) || 0; const fair = winEv1Odds(rate); el.textContent = Number.isFinite(fair) ? `EV1 ${fmtOdds(fair)}倍` : 'EV1 —'; }
+function refreshWinRateDerived() { updateTotalRateGraph(); HORSE_DATA.forEach(h => updateWinEv1(h.key)); renderExpectationMemo(); }
+
+function getEvTarget() {
+    const el = document.getElementById('ev-target-input');
+    const v = el ? Number(el.value) : Number(localStorage.getItem(STORE_EV_TARGET));
+    return (Number.isFinite(v) && v >= 1) ? v : 1.10;
+}
+function changeEvTarget() {
+    const el = document.getElementById('ev-target-input');
+    let v = Number(el.value);
+    if (!Number.isFinite(v) || v < 1) return;
+    localStorage.setItem(STORE_EV_TARGET, String(v));
+    renderExpectationMemo();
+}
+
+const BET_META = {
+    umaren:   { label:'馬連', ordered:false },
+    wide:     { label:'ワイド', ordered:false },
+    umatan:   { label:'馬単', ordered:true },
+    trio:     { label:'3連複', ordered:false },
+    trifecta: { label:'3連単', ordered:true }
+};
+
+function getBetType() {
+    const el = document.getElementById('bet-type-select');
+    const saved = localStorage.getItem(STORE_BET_TYPE);
+    const v = el ? el.value : saved;
+    return BET_META[v] ? v : 'umaren';
+}
+function changeBetType() {
+    const v = getBetType();
+    localStorage.setItem(STORE_BET_TYPE, v);
+    renderExpectationMemo();
+}
+
+function wideProb(pairKeys, strength, allKeys) {
+    const [a,b] = pairKeys;
+    return allKeys.filter(k => k !== a && k !== b)
+        .reduce((sum, third) => sum + unorderedFinishProb([a,b,third], strength), 0);
+}
+
+function buildBetRows(type, strength, allKeys) {
+    if (type === 'umaren') {
+        return combos(allKeys,2).map(keys => ({ keys, p:unorderedFinishProb(keys,strength), ordered:false }));
+    }
+    if (type === 'wide') {
+        return combos(allKeys,2).map(keys => ({ keys, p:wideProb(keys,strength,allKeys), ordered:false }));
+    }
+    if (type === 'umatan') {
+        return orderedSelections(allKeys,2).map(keys => ({ keys, p:orderedFinishProb(keys,strength), ordered:true }));
+    }
+    if (type === 'trifecta') {
+        return orderedSelections(allKeys,3).map(keys => ({ keys, p:orderedFinishProb(keys,strength), ordered:true }));
+    }
+    return combos(allKeys,3).map(keys => ({ keys, p:unorderedFinishProb(keys,strength), ordered:false }));
+}
+
+function updateBetEv(rowKey, probability) {
+    const input = document.querySelector(`.ev-input[data-evkey="${rowKey}"]`);
+    const out = document.getElementById(`ev-result-${rowKey}`);
+    if (!input || !out) return;
+    const odds = Number(input.value);
+    const saved = JSON.parse(localStorage.getItem(STORE_EV_ODDS) || '{}');
+    if (input.value === '') delete saved[rowKey]; else saved[rowKey] = input.value;
+    localStorage.setItem(STORE_EV_ODDS, JSON.stringify(saved));
+    if (!Number.isFinite(odds) || odds <= 0) { out.textContent = '—'; out.className = 'ev-neutral'; return; }
+    const ev = probability * odds;
+    out.textContent = ev.toFixed(2);
+    out.className = ev >= getEvTarget() ? 'ev-good' : 'ev-neutral';
+}
+
+function renderExpectationMemo() {
+    const summary = document.getElementById('ev-summary-grid');
+    const body = document.getElementById('bet-top10-body');
+    const title = document.getElementById('bet-ranking-title');
+    const betSelect = document.getElementById('bet-type-select');
+    if (!summary || !body || !title || !betSelect) return;
+
+    const savedBet = localStorage.getItem(STORE_BET_TYPE);
+    if (BET_META[savedBet]) betSelect.value = savedBet;
+    const betType = getBetType();
+    const meta = BET_META[betType];
+    title.textContent = `${meta.label}｜出現率 TOP10`;
+
+    const strength = getStrengthMap();
+    const sorted = [...HORSE_DATA].sort((a,b) => (strength[b.key] - strength[a.key]) || (Number(a.num) - Number(b.num)));
+    const top5 = sorted.slice(0,5).map(h => h.key);
+    const top3 = sorted.slice(0,3).map(h => h.key);
+
+    const top5PairRate = combos(top5,2).reduce((s,c) => s + unorderedFinishProb(c,strength),0);
+    const top5TrioRate = combos(top5,3).reduce((s,c) => s + unorderedFinishProb(c,strength),0);
+    const top3TrioRate = unorderedFinishProb(top3,strength);
+
+    summary.innerHTML = `
+        <div class="ev-summary-card"><div class="ev-summary-label">勝率上位5頭</div><div class="ev-summary-value">${top5.map(k => horseNumByKey(k)).join('・')}</div><div class="ev-summary-sub">${top5.map(k => horseLabelByKey(k)).join(' / ')}</div></div>
+        <div class="ev-summary-card"><div class="ev-summary-label">馬連｜上位5頭内決着率</div><div class="ev-summary-value">${fmtPct(top5PairRate)}</div><div class="ev-summary-sub">1・2着が勝率上位5頭だけで決まるモデル確率</div></div>
+        <div class="ev-summary-card"><div class="ev-summary-label">3連複｜上位5頭内決着率</div><div class="ev-summary-value">${fmtPct(top5TrioRate)}</div><div class="ev-summary-sub">上位3頭だけの3連複出現率は ${fmtPct(top3TrioRate)}</div></div>`;
+
+    const allKeys = HORSE_DATA.map(h => h.key);
+    const rows = buildBetRows(betType, strength, allKeys)
+        .sort((a,b) => (b.p-a.p) || comboNumLabel(a.keys,a.ordered).localeCompare(comboNumLabel(b.keys,b.ordered), 'ja', {numeric:true}))
+        .slice(0,10);
+
+    body.innerHTML = rows.map((r,i) => {
+        const fair = r.p > 0 ? 1/r.p : Infinity;
+        const combo = comboNumLabel(r.keys, r.ordered);
+        return `<tr><td>${i+1}</td><td class="ev-combo">${combo}</td><td>${fmtPct(r.p)}</td><td><strong>${fmtOdds(fair)}倍</strong></td></tr>`;
+    }).join('');
+}
+
+function renderWinRateGraph() {
+    const list = document.getElementById('winrate-list');
+    list.innerHTML = '';
+    [...HORSE_DATA].sort((a,b) => Number(a.num) - Number(b.num)).forEach(h => {
+        let rate = currentWinRates[h.key] !== undefined ? Number(currentWinRates[h.key]) : 0;
+        let displayWidth = Math.min((rate / 60) * 100, 100);
+        const fair = winEv1Odds(rate);
+        const fairText = Number.isFinite(fair) ? `EV1 ${fmtOdds(fair)}倍` : 'EV1 —';
+        list.insertAdjacentHTML('beforeend', `<div class="wr-row"><div class="wr-info" onclick="openModal('${h.key}')"><div class="wr-name"><span class="wr-num-badge" style="background:${h.bg}; color:${h.text}; border:${h.border}; font-size:0.65rem;">${h.numStr}</span> ${h.name}</div></div><div class="wr-bar-container"><div class="wr-bar" style="width: ${displayWidth}%;" id="wr-bar-graph-${h.key}"></div></div><div class="wr-controls"><button class="wr-btn" onclick="adjustWinRateGraph('${h.key}', -1)">-</button><input type="number" class="wr-input-graph" id="wr-input-graph-${h.key}" data-hkey="${h.key}" value="${rate}" step="1" max="60" oninput="inputWinRateGraph('${h.key}')"><span class="wr-unit">%</span><button class="wr-btn" onclick="adjustWinRateGraph('${h.key}', 1)">+</button></div><div class="wr-ev1" id="wr-ev1-${h.key}" title="この勝率で期待値1.00になる単勝オッズ">${fairText}</div></div>`);
+    });
+    refreshWinRateDerived();
+}
+
+function adjustWinRateGraph(key, diff) {
+    let current = parseInt(currentWinRates[key] || 0);
+    currentWinRates[key] = Math.max(0, Math.min(60, current + diff));
+    document.getElementById(`wr-input-graph-${key}`).value = currentWinRates[key];
+    document.getElementById(`wr-bar-graph-${key}`).style.width = Math.min((currentWinRates[key] / 60) * 100, 100) + '%';
+    refreshWinRateDerived(); triggerSave();
+}
+
+function inputWinRateGraph(key) {
+    let el = document.getElementById(`wr-input-graph-${key}`);
+    let val = parseInt(el.value);
+    if (isNaN(val) || val < 0) val = 0;
+    if (val > 60) val = 60;
+    currentWinRates[key] = val; el.value = val;
+    document.getElementById(`wr-bar-graph-${key}`).style.width = Math.min((val / 60) * 100, 100) + '%';
+    refreshWinRateDerived(); triggerSave();
+}
+
+function updateTotalRateGraph() {
+    let total = 0; HORSE_DATA.forEach(h => { total += parseInt(currentWinRates[h.key] || 0); });
+    const display = document.getElementById('total-rate-display');
+    display.innerText = `合計: ${total}%`;
+    display.className = total === 100 ? 'total-rate ok' : 'total-rate error';
+    HORSE_DATA.forEach(h => { const inp = document.getElementById(`wr-input-${h.key}`); if(inp) inp.value = currentWinRates[h.key] || 0; });
+}
+
+function adjustWinRates() { currentWinRates = normalizeRates(currentWinRates); renderUI(); renderWinRateGraph(); triggerSave(true); }
+
+function updateHorseNum(el) {
+    const hkey = el.getAttribute('data-hkey');
+    let val = el.value.trim() || '-';
+    const h = HORSE_DATA.find(x => x.key === hkey);
+    h.num = val; h.numStr = `[${val}]`; applyWakuStyle(h);
+    currentNums[hkey] = val;
+    localStorage.setItem(STORE_NUMS, JSON.stringify(currentNums));
+    renderWinRateGraph(); renderUI();
+}
+
+function createRadarSVG(key, size=120) {
+    let html = `<svg class="radar-svg" viewBox="0 0 200 200"><polygon points="100,20 176,75 147,164 53,164 24,75" fill="none" stroke="#e2e8f0" stroke-width="1"/><polygon points="100,40 157,81 135,148 65,148 43,81" fill="none" stroke="#e2e8f0" stroke-width="1"/><polygon points="100,60 138,88 123,132 77,132 62,88" fill="none" stroke="#e2e8f0" stroke-width="1"/><polygon points="100,80 119,94 112,116 88,116 81,94" fill="none" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="100" x2="100" y2="20" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="100" x2="176" y2="75" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="100" x2="147" y2="164" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="100" x2="53" y2="164" stroke="#e2e8f0" stroke-width="1"/><line x1="100" y1="100" x2="24" y2="75" stroke="#e2e8f0" stroke-width="1"/>`;
+    let pts = appState[key].map((v, i) => { const r = (v / 5) * maxRadius; const rad = angles[i] * Math.PI / 180; return `${center + r * Math.cos(rad)},${center + r * Math.sin(rad)}`; }).join(' ');
+    const color = HORSE_DATA.find(h => h.key === key).color;
+    html += `<polygon id="poly-${key}" points="${pts}" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/>`;
+    html += appState[key].map((v, i) => { const r = (v / 5) * maxRadius; const rad = angles[i] * Math.PI / 180; const x = center + r * Math.cos(rad), y = center + r * Math.sin(rad); return `<circle id="pt-${key}-${i}" cx="${x}" cy="${y}" r="4" fill="${color}" stroke="#ffffff" stroke-width="1.5" style="cursor:pointer;"/>`; }).join('');
+    html += `</svg>`; return html;
+}
+
+function renderUI() {
+    const grid = document.getElementById('vs-grid'); grid.innerHTML = '';
+    const savedData = JSON.parse(localStorage.getItem(STORE_DATA) || '{}');
+    
+    getSortedHorses().forEach((h) => {
+        const totalScore = appState[h.key].reduce((a, b) => a + b, 0);
+        let wr = currentWinRates[h.key] !== undefined ? currentWinRates[h.key] : 0;
+        const defaultMemo = savedData[`memo-${h.key}`] !== undefined ? savedData[`memo-${h.key}`] : h.descExtra;
+        
+        let html = `
+        <div class="vs-card" data-key="${h.key}">
+            <div class="vs-header-area">
+                <div class="vs-name-wrap" onclick="openModal('${h.key}')" title="タップして詳細・過去3走を開く">
+                    <div class="vs-name"><span style="display:inline-flex;align-items:center;gap:4px;margin-right:6px;"><span style="background:${h.bg};color:${h.text};border:${h.border};border-radius:4px;padding:1px 5px;font-size:0.78rem;">${h.waku}枠</span><span style="color:#4a5568;font-size:0.9rem;">${h.num}番</span></span>${h.name}</div>
+                    <div class="vs-odds-info">${h.pop}人気 / 前日${h.odds}倍 <span class="chevron-icon">▶</span></div>
+                </div>
+                <div class="vs-controls">
+                    <div class="mark-wrap"><select id="mark-sum-${h.key}" class="mark-select" data-hkey="${h.key}">${getMarkOptions(markState[h.key])}</select><div class="mark-placeholder" id="ph-sum-${h.key}">${markState[h.key] ? '' : '印'}</div></div>
+                    <div class="win-rate-badge">勝率<input type="number" id="wr-input-${h.key}" class="wr-input" value="${wr}" data-hkey="${h.key}">% <span style="margin-left:5px;color:#744210;">EV1 ${Number.isFinite(winEv1Odds(wr)) ? fmtOdds(winEv1Odds(wr)) + '倍' : '—'}</span></div>
+                </div>
+            </div>
+            <div class="profile-tags"><span class="profile-tag jockey">騎: ${h.jockey}</span><span class="profile-tag pos">脚: ${h.posLabel || h.pos}</span><span class="profile-tag">父: ${h.sire}</span><span class="profile-tag">母父: ${h.damsire}</span></div>
+            <div class="radar-wrap" id="radar-wrap-${h.key}">
+                <div class="score-badge" style="background:${h.color}" id="score-badge-${h.key}">${totalScore}/25</div>
+                <div class="axis-label label-0" data-idx="0" data-hkey="${h.key}">${currentRadarLabels[0]}</div>
+                <div class="axis-label label-1" data-idx="1" data-hkey="${h.key}">${currentRadarLabels[1]}</div>
+                <div class="axis-label label-2" data-idx="2" data-hkey="${h.key}">${currentRadarLabels[2]}</div>
+                <div class="axis-label label-3" data-idx="3" data-hkey="${h.key}">${currentRadarLabels[3]}</div>
+                <div class="axis-label label-4" data-idx="4" data-hkey="${h.key}">${currentRadarLabels[4]}</div>
+                ${createRadarSVG(h.key)}
+            </div>
+            <textarea id="sync-memo-${h.key}" class="sync-memo-race" placeholder="短評メモを入力..." data-sync="memo-${h.key}">${defaultMemo}</textarea>
+        </div>`;
+        grid.insertAdjacentHTML('beforeend', html);
+    });
+    renderPaceBoard(); setupDynamicEvents();
+}
+
+function openModal(key) {
+    const h = HORSE_DATA.find(x => x.key === key); if (!h) return;
+    document.getElementById('modal-title').innerText = `${h.name} の詳細`;
+    const totalScore = appState[h.key].reduce((a, b) => a + b, 0);
+    let wr = currentWinRates[h.key] !== undefined ? currentWinRates[h.key] : 0;
+    
+    let html = `
+    <div class="detail-card">
+        <div class="hp-header-main">
+            <div style="display:flex; align-items:baseline; gap:8px;">
+                <div class="hp-name-det"><span style="background:${h.bg};color:${h.text};border:${h.border};border-radius:4px;padding:2px 6px;font-size:0.9rem;margin-right:2px;">${h.waku}枠</span><span style="color:#718096; font-size:1.0rem; margin-right:4px;">${h.num}番</span>${h.name}</div>
+                <div style="font-size:0.85rem; color:#718096;">(前日${h.odds}倍 / ${h.pop}人気)</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="win-rate-badge" style="font-size:0.85rem; padding: 4px 8px; border-color:#2b6cb0;">推定 <span style="color:#c53030; font-weight:bold; font-size:1rem; margin:0 4px;">${wr}</span>% <span style="margin-left:6px;color:#744210;">EV1 ${Number.isFinite(winEv1Odds(wr)) ? fmtOdds(winEv1Odds(wr)) + '倍' : '—'}</span></div>
+                <div class="mark-wrap" style="width:32px; height:32px;"><select id="mark-det-${h.key}" class="mark-select" style="width:32px; height:32px; font-size:1.2rem;" data-hkey="${h.key}">${getMarkOptions(markState[h.key])}</select><div class="mark-placeholder" id="ph-det-${h.key}">${markState[h.key] ? '' : '印'}</div></div>
+            </div>
+        </div>
+        
+        <div class="profile-tags" style="margin-bottom: 15px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 12px;">
+            <span class="profile-tag jockey" style="font-size:0.8rem; padding:3px 8px;">騎手: ${h.jockey}</span>
+            <span class="profile-tag" style="font-size:0.8rem; padding:3px 8px; background:#f8fafc;">厩舎: ${h.trainer}</span>
+            <span class="profile-tag" style="font-size:0.8rem; padding:3px 8px; background:#f8fafc;">父: ${h.sire}</span>\n            <span class="profile-tag" style="font-size:0.8rem; padding:3px 8px; background:#f8fafc;">母: ${h.mother}</span>\n            <span class="profile-tag" style="font-size:0.8rem; padding:3px 8px; background:#f8fafc;">母父: ${h.damsire}</span>
+            <span class="profile-tag pos" style="font-size:0.8rem; padding:3px 8px;">脚質: ${h.posLabel || h.pos}</span>
+        </div>
+        
+        <div class="blood-badge-wrap">
+            <div class="blood-badge-title" style="font-size:0.8rem; padding:6px 12px;">血統</div>
+            <div contenteditable="true" class="detail-blood-memo" data-sync="blood-${h.key}" style="padding:6px 12px;">${h.descBlood}</div>
+        </div>
+        
+        <div class="past-races-title">過去走詳細データ</div>
+        <div class="past-races-list">
+            ${h.races.map(r => {
+                let rankClass = r.res.includes("1着") ? "win" : (parseInt(r.res) <= 3 ? "in" : "out");
+                let diffClass = r.rivalType === "1着" ? "lose-diff" : "win-diff";
+                let diffPrefix = r.rivalType === "1着" ? "" : "-";
+                return `<div class="past-race-item"><div class="pr-row1"><span class="pr-title" style="font-size:0.85rem;">${r.title}</span><span class="pr-track">${r.track}</span></div><div class="pr-row2"><div class="pr-res-group"><span class="pr-rank ${rankClass}">${r.res}</span><span class="pr-jockey">${r.jockey}</span></div><span class="pr-time">${r.time} <span class="pr-pass">${r.pass}</span></span></div><div class="pr-row3" style="background:transparent; border:none; border-top:1px dashed #e2e8f0; padding:4px 0 0 0; margin-top:4px;"><span>${r.rivalType}: <span class="pr-rival">${r.rival}</span></span><span>差: <span class="pr-diff ${diffClass}">${diffPrefix}${r.diff}</span></span><span>上り <span class="pr-agari">${r.agari}</span></span></div></div>`;
+            }).join('')}
+        </div>
+        
+        <div class="detail-bottom-wrap">
+            <div class="detail-radar-box">
+                <div class="radar-wrap" style="transform:scale(1.2); margin:15px auto;">
+                    <div class="score-badge" style="background:${h.color}; font-size:0.8rem; padding:4px 10px;" id="score-badge-det-${h.key}">${totalScore}/25</div>
+                    <div class="axis-label label-0" data-idx="0" data-hkey="${h.key}">${currentRadarLabels[0]}</div>
+                    <div class="axis-label label-1" data-idx="1" data-hkey="${h.key}">${currentRadarLabels[1]}</div>
+                    <div class="axis-label label-2" data-idx="2" data-hkey="${h.key}">${currentRadarLabels[2]}</div>
+                    <div class="axis-label label-3" data-idx="3" data-hkey="${h.key}">${currentRadarLabels[3]}</div>
+                    <div class="axis-label label-4" data-idx="4" data-hkey="${h.key}">${currentRadarLabels[4]}</div>
+                    ${createRadarSVG(h.key)}
+                </div>
+            </div>
+            
+            <div class="analysis-box">
+                <div style="font-weight:bold; color:#1a365d; margin-bottom:10px; font-size:1rem; border-bottom:1px solid #cbd5e0; padding-bottom:5px;">見解</div>
+                <div contenteditable="true" class="analysis-extra" data-sync="extra-${h.key}" style="font-size:0.92rem;line-height:1.75;background:#ffffff;border-style:solid;">${h.descExtra}</div>
+            </div>
+        </div>
+    </div>`;
+    
+    document.getElementById('horses-container').innerHTML = html;
+    document.getElementById('modal-container').classList.add('active');
+    
+    const savedData = JSON.parse(localStorage.getItem(STORE_DATA) || '{}');
+    document.querySelectorAll('#horses-container [data-sync]').forEach(el => {
+        const syncKey = el.getAttribute('data-sync');
+        if (savedData[syncKey]) el.innerHTML = savedData[syncKey];
+        el.addEventListener('blur', () => triggerSave());
+    });
+    setupDynamicEvents();
+}
+
+function closeModal() {
+    document.getElementById('modal-container').classList.remove('active'); renderUI();
+    const savedData = JSON.parse(localStorage.getItem(STORE_DATA) || '{}');
+    document.querySelectorAll('#vs-grid [data-sync]').forEach(el => { const syncKey = el.getAttribute('data-sync'); if (savedData[syncKey]) el.value = savedData[syncKey]; });
+}
+
+function updateRadar(key) {
+    const pts = appState[key].map((v, i) => { const r = (v / 5) * maxRadius; const rad = angles[i] * Math.PI / 180; return `${center + r * Math.cos(rad)},${center + r * Math.sin(rad)}`; }).join(' ');
+    document.querySelectorAll(`#poly-${key}`).forEach(el => el.setAttribute('points', pts));
+    appState[key].forEach((v, i) => { const r = (v / 5) * maxRadius; const rad = angles[i] * Math.PI / 180; const x = center + r * Math.cos(rad), y = center + r * Math.sin(rad); document.querySelectorAll(`#pt-${key}-${i}`).forEach(el => { el.setAttribute('cx', x); el.setAttribute('cy', y); }); });
+    const score = appState[key].reduce((a, b) => a + b, 0);
+    const sb = document.getElementById(`score-badge-${key}`); const sbd = document.getElementById(`score-badge-det-${key}`);
+    if(sb) sb.innerText = `${score}/25`; if(sbd) sbd.innerText = `${score}/25`;
+}
+
+function handleRadarClick(e) {
+    if (e.target.tagName !== 'circle' && !e.target.classList.contains('axis-label')) return;
+    const hkey = e.target.getAttribute('data-hkey') || e.target.id.split('-')[1];
+    const idx = parseInt(e.target.getAttribute('data-idx') || e.target.id.split('-')[2]);
+    appState[hkey][idx] = appState[hkey][idx] === 5 ? 1 : appState[hkey][idx] + 1;
+    updateRadar(hkey); triggerSave();
+}
+
+function setupDynamicEvents() {
+    document.querySelectorAll('.radar-wrap').forEach(wrap => { wrap.removeEventListener('click', handleRadarClick); wrap.addEventListener('click', handleRadarClick); });
+    document.querySelectorAll('.mark-select').forEach(sel => {
+        sel.addEventListener('change', (e) => {
+            const hkey = e.target.getAttribute('data-hkey'); markState[hkey] = e.target.value;
+            document.querySelectorAll(`.mark-select[data-hkey="${hkey}"]`).forEach(el => el.value = e.target.value);
+            document.querySelectorAll(`#ph-sum-${hkey}, #ph-det-${hkey}`).forEach(ph => ph.textContent = e.target.value ? '' : '印'); triggerSave();
+        });
+    });
+    document.querySelectorAll('.wr-input').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+            const hkey = e.target.getAttribute('data-hkey'); let val = parseInt(e.target.value);
+            if (isNaN(val) || val < 0) val = 0; if (val > 60) val = 60;
+            currentWinRates[hkey] = val; e.target.value = val; renderWinRateGraph(); triggerSave();
+        });
+    });
+    document.querySelectorAll('.sync-memo-race').forEach(el => { el.addEventListener('blur', () => { triggerSave(); }); });
+}
+
+function triggerSave(isManual = false) {
+    let data = JSON.parse(localStorage.getItem(STORE_DATA) || '{}');
+    document.querySelectorAll('.sync-memo-race').forEach(el => data[el.getAttribute('data-sync')] = el.value);
+    document.querySelectorAll('[contenteditable="true"][data-id]').forEach(el => data[el.getAttribute('data-id')] = el.innerHTML);
+    document.querySelectorAll('[contenteditable="true"][data-sync]').forEach(el => data[el.getAttribute('data-sync')] = el.innerHTML);
+    
+    localStorage.setItem(STORE_DATA, JSON.stringify(data));
+    localStorage.setItem(STORE_RADAR, JSON.stringify(appState));
+    localStorage.setItem(STORE_MARK, JSON.stringify(markState));
+    localStorage.setItem(STORE_SORT, currentSort);
+    localStorage.setItem(STORE_RADAR_LABELS, JSON.stringify(currentRadarLabels));
+    localStorage.setItem(STORE_WINRATES, JSON.stringify(currentWinRates));
+    localStorage.setItem(STORE_COND_TRACK, document.getElementById('track-cond').value);
+    localStorage.setItem(STORE_COND_PACE, document.getElementById('race-pace').value);
+    localStorage.setItem(STORE_COND_BIAS, document.getElementById('track-bias-short').innerText);
+    localStorage.setItem(STORE_PACE_STATE, JSON.stringify(currentPaceState));
+    
+    let currentOdds = {}; HORSE_DATA.forEach(h => { currentOdds[h.key] = { odds: h.odds, pop: h.pop }; });
+    localStorage.setItem(STORE_ODDS, JSON.stringify(currentOdds));
+    
+    if (isManual) { const msg = document.getElementById('save-msg'); msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 1500); }
+}
+
+function applyOdds() {
+    const text = document.getElementById('odds-text-area').value;
+    if (!text.trim()) return alert("オッズ表テキストが入力されていません。");
+    const lines = text.split('\n'); let matched = 0;
+    lines.forEach(line => {
+        const parts = line.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            const rawOdds = parts.find(p => /^\d+\.\d+$/.test(p)); let rawPop = parts.find(p => /^\d+$/.test(p));
+            if (!rawOdds) return; const oddsVal = parseFloat(rawOdds);
+            let namePart = parts.find(p => !/^\d/.test(p) && p.length >= 2 && p !== "除外" && p !== "取消");
+            if (namePart) { const horse = HORSE_DATA.find(h => h.name.includes(namePart.substring(0, 3))); if (horse) { horse.odds = oddsVal; if (rawPop) horse.pop = parseInt(rawPop); matched++; } }
+        }
+    });
+    if (matched > 0) { alert(`${matched}頭のオッズを更新しました！\n（人気順を再反映します。勝率は基礎勝率グラフ由来の値を維持します）`); renderUI(); renderWinRateGraph(); triggerSave(true); } else { alert("オッズをうまく読み取れませんでした。馬名とオッズの数値が空白で区切られているか確認してください。"); }
+}
+
+function resetData() {
+    if (!confirm('すべてのメモ・印・勝率・前日オッズ編集を初期状態に戻しますか？')) return;
+    localStorage.removeItem(STORE_DATA); localStorage.removeItem(STORE_RADAR); localStorage.removeItem(STORE_MARK); localStorage.removeItem(STORE_WINRATES); localStorage.removeItem(STORE_PACE_STATE); localStorage.removeItem(STORE_NUMS); localStorage.removeItem(STORE_EV_ODDS); localStorage.removeItem(STORE_EV_TARGET); localStorage.removeItem(STORE_BET_TYPE);
+    location.reload();
+}
+
+function initApp() {
+    const savedRadar = localStorage.getItem(STORE_RADAR);
+    if (savedRadar) { appState = JSON.parse(savedRadar); } else { HORSE_DATA.forEach(h => { appState[h.key] = initialScores[h.key] || [3, 3, 3, 3, 3]; }); }
+    const savedMark = localStorage.getItem(STORE_MARK); if (savedMark) markState = JSON.parse(savedMark);
+    const savedOdds = localStorage.getItem(STORE_ODDS);
+    if (savedOdds) { const parsedOdds = JSON.parse(savedOdds); HORSE_DATA.forEach(h => { if (parsedOdds[h.key]) { h.odds = parsedOdds[h.key].odds; h.pop = parsedOdds[h.key].pop; } }); }
+    if (Object.keys(currentWinRates).length === 0) currentWinRates = calcWinRatesBase();
+
+    const savedCond = localStorage.getItem(STORE_COND_TRACK); if (savedCond) document.getElementById('track-cond').value = savedCond;
+    const savedPace = localStorage.getItem(STORE_COND_PACE); if (savedPace) document.getElementById('race-pace').value = savedPace;
+    const savedBias = localStorage.getItem(STORE_COND_BIAS); if (savedBias) document.getElementById('track-bias-short').innerText = savedBias;
+    document.querySelectorAll('.badge-select, .badge-editable').forEach(el => { el.addEventListener('change', triggerSave); el.addEventListener('blur', triggerSave); });
+
+    const savedData = JSON.parse(localStorage.getItem(STORE_DATA) || '{}');
+    document.querySelectorAll('[contenteditable="true"][data-id]').forEach(el => { const key = el.getAttribute('data-id'); if (savedData[key]) el.innerHTML = savedData[key]; el.addEventListener('blur', () => triggerSave()); });
+
+    renderUI(); renderWinRateGraph();
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
