@@ -770,6 +770,31 @@ body{background:linear-gradient(180deg,#e8eef6 0,#e2e8f0 420px,#e2e8f0 100%);}
   .final-reco-comment{font-size:.69rem;line-height:1.45}
 }
 
+
+/* ===== 全頭最終評価 S〜E ===== */
+.final-eval-strip{
+  margin-top:10px;padding:8px 10px;border-radius:7px;border:1px solid #cbd5e0;
+  display:flex;gap:8px;align-items:flex-start;background:#f8fafc
+}
+.final-eval-grade{
+  min-width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.05rem;color:#fff;flex:0 0 auto;box-shadow:0 1px 3px rgba(0,0,0,.12)
+}
+.final-eval-main{min-width:0;flex:1}
+.final-eval-action{font-size:.82rem;font-weight:900;color:#1a365d;margin-bottom:2px}
+.final-eval-reason{font-size:.74rem;line-height:1.45;color:#4a5568}
+.final-grade-S{background:#9b2c2c}.final-grade-A{background:#c53030}.final-grade-B{background:#d69e2e}
+.final-grade-C{background:#3182ce}.final-grade-D{background:#718096}.final-grade-E{background:#2d3748}
+.final-grade-section{max-width:980px;margin:0 auto 15px;background:#fff;padding:13px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,.06);border-left:6px solid #2d3748}
+.final-grade-section h2{margin:0 0 4px;font-size:1.05rem;color:#1a365d}
+.final-grade-lead{font-size:.74rem;color:#718096;line-height:1.5;margin-bottom:10px}
+.final-grade-grid{display:grid;grid-template-columns:1fr;gap:7px}
+.final-grade-row{display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:start;padding:8px;border:1px solid #e2e8f0;border-radius:7px;background:#fff}
+.final-grade-row .grade-letter{height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+.final-grade-names{font-size:.79rem;line-height:1.5;color:#2d3748}
+.final-grade-names b{color:#1a365d}
+@media(min-width:760px){.final-grade-grid{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -829,12 +854,12 @@ body{background:linear-gradient(180deg,#e8eef6 0,#e2e8f0 420px,#e2e8f0 100%);}
 
 <div class="memo-lead">
     <div style="font-weight:bold;font-size:1rem;color:#1a365d;margin-bottom:4px;">🏇 凱旋門賞2026｜最終版メモ</div>
-    <div>パリロンシャン芝2400m・右回り。<strong>【16頭立て・ゲート確定・10/4現在オッズ反映】</strong>の最終チェックです。</div>
+    <div>パリロンシャン芝2400m・右回り。<strong>【16頭立て・ゲート確定・10/4 17:58時点オッズ反映】</strong>の最終チェックです。</div>
 </div>
 <div class="arc-source-note">出走馬・近5走・着差・血統は共有された出馬表データを基に整理。文章は事実関係からAIBOU用に独自作成。海外馬の通過順位は共有データにないため「平均番手」は算出せず、展開欄は別途共有された展開予想を参考表示しています。</div>
 <div class="memo-lead" style="border-left:5px solid #d69e2e;">
-  <div style="font-weight:bold;color:#744210;margin-bottom:4px;">💹 10/4 現在オッズ</div>
-  <div style="font-size:.82rem;line-height:1.6;">1人気 メイショウタバル 3.3倍 ／ 2人気 ダリズ 3.7倍 ／ 3人気 カルパナ 6.4倍 ／ 4人気 モルティーズクロス 9.6倍。以下の各馬カードにも単勝・複勝を反映しています。<strong>AIBOU推定勝率は市場オッズへ合わせず、レーティング主軸の独自評価を維持</strong>しています。</div>
+  <div style="font-weight:bold;color:#744210;margin-bottom:4px;">💹 10/4 17:58時点オッズ</div>
+  <div style="font-size:.82rem;line-height:1.6;">1人気 メイショウタバル 3.3倍 ／ 2人気 ダリズ 3.8倍 ／ 3人気 カルパナ 6.5倍 ／ 4人気 モルティーズクロス 9.5倍。以下の各馬カードにも最新の単勝オッズ・人気順を反映しています。<strong>AIBOU推定勝率は市場オッズへ合わせず、レーティング主軸の独自評価を維持</strong>しています。</div>
 </div>
 
 <div class="overview-container">
@@ -869,13 +894,13 @@ body{background:linear-gradient(180deg,#e8eef6 0,#e2e8f0 420px,#e2e8f0 100%);}
             <div contenteditable="true" data-id="data-room-match-list" class="data-match-grid">
                 <div class="data-match-card"><div class="data-match-name">ダリズ</div><div class="data-match-hit"><b>該当：</b>比較R上位・4歳・フランス調教・フォワ賞組</div></div>
                 <div class="data-match-card"><div class="data-match-name">カルパナ</div><div class="data-match-hit"><b>該当：</b>比較R上位・牝馬・イギリス調教・ヨークシャーオークス組</div></div>
-                <div class="data-match-card"><div class="data-match-name">ミニーホーク</div><div class="data-match-hit"><b>該当：</b>比較R上位・4歳牝馬・6番ゲート</div></div>
+                <div class="data-match-card"><div class="data-match-name">ミニーホーク</div><div class="data-match-hit"><b>該当：</b>比較R上位・4歳牝馬・10番ゲート</div></div>
             </div>
         </div>
         <div class="data-room-box">
             <h2 class="memo-section-title" style="margin-top:0;">💴 市場上位｜10/4 現在</h2>
-            <div class="data-item"><strong>1〜4人気：</strong>メイショウタバル 3.3倍 ／ ダリズ 3.7倍 ／ カルパナ 6.4倍 ／ モルティーズクロス 9.6倍</div>
-            <div class="data-item"><strong>市場とのズレを見る馬：</strong>ミニーホークは現在37.0倍に対してAIBOU初期勝率9.8%。市場人気とモデル評価の差が大きいため、買う・切るの判断を明確にしたい。</div>
+            <div class="data-item"><strong>1〜4人気：</strong>メイショウタバル 3.3倍 ／ ダリズ 3.8倍 ／ カルパナ 6.5倍 ／ モルティーズクロス 9.5倍</div>
+            <div class="data-item"><strong>市場とのズレを見る馬：</strong>ミニーホークは現在37.3倍に対してAIBOU初期勝率9.8%。市場人気とモデル評価の差が大きいため、買う・切るの判断を明確にしたい。</div>
         </div>
     </div>
 </div>
@@ -902,6 +927,12 @@ body{background:linear-gradient(180deg,#e8eef6 0,#e2e8f0 420px,#e2e8f0 100%);}
 <div class="summary-section">
     <div class="vs-grid" id="vs-grid"></div>
 </div>
+
+<section class="final-grade-section" id="final-grade-section">
+  <h2>🧾 全16頭｜最終S〜E評価</h2>
+  <div class="final-grade-lead">能力の絶対値だけではなく、今回のロンシャン2400m・ゲート・馬場想定・近走内容・現在オッズまで含めた「今回はどうするか」の最終判断です。</div>
+  <div class="final-grade-grid" id="final-grade-grid"></div>
+</section>
 
 <div id="tab-winrate" class="tab-content active" style="border-radius:8px;">
     <div class="win-rate-header">
@@ -990,9 +1021,9 @@ const HORSE_DATA = [
     "name": "ダリズ",
     "gate": 5,
     "num": 1,
-    "odds": 3.7,
+    "odds": 3.8,
     "pop": 2,
-    "placeOdds": "1.4 - 1.7",
+    "placeOdds": "—",
     "jockey": "M．バルザローナ 59.5kg",
     "trainer": "F．グラファール",
     "sexAge": "牡4 鹿毛",
@@ -1094,9 +1125,9 @@ const HORSE_DATA = [
     "name": "サダッド",
     "gate": 9,
     "num": 2,
-    "odds": 51.1,
-    "pop": 13,
-    "placeOdds": "6.9 - 10.7",
+    "odds": 50.8,
+    "pop": 12,
+    "placeOdds": "—",
     "jockey": "R．ドーソン 59.5kg",
     "trainer": "R．ヴェリアン",
     "sexAge": "牡4 鹿毛",
@@ -1198,9 +1229,9 @@ const HORSE_DATA = [
     "name": "チェスナットロケット",
     "gate": 2,
     "num": 3,
-    "odds": 132.6,
+    "odds": 133.0,
     "pop": 15,
-    "placeOdds": "24.9 - 39.1",
+    "placeOdds": "—",
     "jockey": "M．グランディン 59.5kg",
     "trainer": "A．カルコサ",
     "sexAge": "牡4 栗毛",
@@ -1302,9 +1333,9 @@ const HORSE_DATA = [
     "name": "アドマイヤテラ",
     "gate": 12,
     "num": 4,
-    "odds": 15.0,
+    "odds": 15.1,
     "pop": 6,
-    "placeOdds": "2.8 - 4.2",
+    "placeOdds": "—",
     "jockey": "C．デムーロ 59.5kg",
     "trainer": "友道康夫",
     "sexAge": "牡5 芦毛",
@@ -1408,7 +1439,7 @@ const HORSE_DATA = [
     "num": 5,
     "odds": 3.3,
     "pop": 1,
-    "placeOdds": "1.6 - 2.1",
+    "placeOdds": "—",
     "jockey": "武豊 59.5kg",
     "trainer": "石橋守",
     "sexAge": "牡5 鹿毛",
@@ -1510,9 +1541,9 @@ const HORSE_DATA = [
     "name": "アローイーグル",
     "gate": 14,
     "num": 6,
-    "odds": 136.3,
+    "odds": 139.5,
     "pop": 16,
-    "placeOdds": "22.9 - 36.0",
+    "placeOdds": "—",
     "jockey": "I．メンディザバル 59.5kg",
     "trainer": "JC．ルジェ",
     "sexAge": "牡5 鹿毛",
@@ -1614,9 +1645,9 @@ const HORSE_DATA = [
     "name": "ベイシティローラー",
     "gate": 15,
     "num": 7,
-    "odds": 50.3,
-    "pop": 12,
-    "placeOdds": "7.2 - 11.2",
+    "odds": 51.0,
+    "pop": 13,
+    "placeOdds": "—",
     "jockey": "O．マーフィー 59.5kg",
     "trainer": "G．スコット",
     "sexAge": "牡4 鹿毛",
@@ -1718,9 +1749,9 @@ const HORSE_DATA = [
     "name": "ミニーホーク",
     "gate": 10,
     "num": 8,
-    "odds": 37.0,
+    "odds": 37.3,
     "pop": 11,
-    "placeOdds": "6.2 - 9.5",
+    "placeOdds": "—",
     "jockey": "W．ビュイック 58kg",
     "trainer": "A．オブライエン",
     "sexAge": "牝4 鹿毛",
@@ -1822,9 +1853,9 @@ const HORSE_DATA = [
     "name": "カルパナ",
     "gate": 6,
     "num": 9,
-    "odds": 6.4,
+    "odds": 6.5,
     "pop": 3,
-    "placeOdds": "1.9 - 2.7",
+    "placeOdds": "—",
     "jockey": "C．キーン 58kg",
     "trainer": "A．ボールディング",
     "sexAge": "牝5 鹿毛",
@@ -1926,9 +1957,9 @@ const HORSE_DATA = [
     "name": "フレンドリーソウル",
     "gate": 7,
     "num": 10,
-    "odds": 30.8,
+    "odds": 31.1,
     "pop": 10,
-    "placeOdds": "5.9 - 9.1",
+    "placeOdds": "—",
     "jockey": "J．ドイル 58kg",
     "trainer": "J＆T．ゴスデン",
     "sexAge": "牝5 鹿毛",
@@ -2030,9 +2061,9 @@ const HORSE_DATA = [
     "name": "ヴァランディール",
     "gate": 4,
     "num": 11,
-    "odds": 15.5,
+    "odds": 15.4,
     "pop": 7,
-    "placeOdds": "3.8 - 5.7",
+    "placeOdds": "—",
     "jockey": "C．ルクーヴル 56.5kg",
     "trainer": "F．グラファール",
     "sexAge": "牡3 栗毛",
@@ -2134,9 +2165,9 @@ const HORSE_DATA = [
     "name": "ベンヴェヌートチェッリーニ",
     "gate": 1,
     "num": 12,
-    "odds": 21.4,
+    "odds": 21.1,
     "pop": 9,
-    "placeOdds": "3.9 - 5.8",
+    "placeOdds": "—",
     "jockey": "R．ムーア 56.5kg",
     "trainer": "A．オブライエン",
     "sexAge": "牡3 栗毛",
@@ -2238,9 +2269,9 @@ const HORSE_DATA = [
     "name": "ブライトライト",
     "gate": 8,
     "num": 13,
-    "odds": 90.5,
+    "odds": 90.8,
     "pop": 14,
-    "placeOdds": "20.7 - 32.6",
+    "placeOdds": "—",
     "jockey": "B．マリー 56.5kg",
     "trainer": "A．スボリッチ",
     "sexAge": "牡3 栗毛",
@@ -2342,9 +2373,9 @@ const HORSE_DATA = [
     "name": "モルティーズクロス",
     "gate": 11,
     "num": 14,
-    "odds": 9.6,
+    "odds": 9.5,
     "pop": 4,
-    "placeOdds": "2.5 - 3.6",
+    "placeOdds": "—",
     "jockey": "T．マーカンド 56.5kg",
     "trainer": "W．ハガス",
     "sexAge": "牡3 鹿毛",
@@ -2446,9 +2477,9 @@ const HORSE_DATA = [
     "name": "サンダリングオン",
     "gate": 3,
     "num": 15,
-    "odds": 14.9,
+    "odds": 14.3,
     "pop": 5,
-    "placeOdds": "3.1 - 4.6",
+    "placeOdds": "—",
     "jockey": "P．ブドー 55kg",
     "trainer": "J．オブライエン",
     "sexAge": "牝3 栗毛",
@@ -2552,7 +2583,7 @@ const HORSE_DATA = [
     "num": 16,
     "odds": 17.5,
     "pop": 8,
-    "placeOdds": "3.8 - 5.7",
+    "placeOdds": "—",
     "jockey": "C．スミヨン 55kg",
     "trainer": "A．オブライエン",
     "sexAge": "牝3 鹿毛",
@@ -2649,25 +2680,63 @@ const HORSE_DATA = [
   }
 ];
 
+
+const FINAL_HORSE_EVALS = {
+  1:{grade:'S',action:'積極的に買う／軸候補',reason:'前年の凱旋門賞勝ち＋前走フォワ賞勝ち。R127でロンシャン2400mの再現性が最も高く、ゲート5も許容範囲。'},
+  2:{grade:'B',action:'相手で買う／妙味候補',reason:'前走バーデン大賞G1勝ち。ロンシャン経験は薄いが、50倍台なら2400m実績に対して妙味を取りたい。'},
+  3:{grade:'E',action:'買わない',reason:'2400〜2500m経験は豊富でも、ロンシャンG3で大敗。上位G1勢との能力差を内ゲートだけで埋めるのは難しい。'},
+  4:{grade:'D',action:'基本見送り',reason:'長距離のスタミナは高いが、高速化したロンシャン2400mで求められる追走力と切れに不安。ゲート12も楽ではない。'},
+  5:{grade:'C',action:'押さえまで',reason:'宝塚記念勝ち・大阪杯2着の能力は認めるが、2400mとゲート13が課題。1番人気なら条件面の不確定さを割り引く。'},
+  6:{grade:'D',action:'基本見送り',reason:'前年6着とロンシャン経験はあるが、今年は未勝利。ゲート14と高速化想定も追い風になりにくい。'},
+  7:{grade:'C',action:'オッズ次第で押さえ',reason:'コロネーションC勝ちなど2400m実績は十分。ただゲート15と、より乾いて速くなる馬場への適応が鍵。'},
+  8:{grade:'A',action:'買う／相手上位',reason:'前年凱旋門賞2着の舞台実績と比較R126は魅力。近況の波はあるが、37倍台なら市場とのギャップを狙いたい。'},
+  9:{grade:'S',action:'積極的に買う／軸候補',reason:'キングジョージ、ヨークシャーオークスを連勝。比較R127で2400mの安定感は最上位級、ゲート6も好材料。'},
+ 10:{grade:'C',action:'押さえまで',reason:'ヴェルメイユ賞でロンシャン2400mを勝っており舞台適性はあるが、牡馬上位との能力比較では一段慎重に見る。'},
+ 11:{grade:'B',action:'相手で買う',reason:'ニエル賞勝ちでロンシャン2400m適性と近況は良好。絶対能力は上位より落ちるがゲート4で立ち回りやすい。'},
+ 12:{grade:'A',action:'買う',reason:'愛ダービー勝ち・キングジョージ3着で能力は高い。ニエル賞5着からの反発と最内ゲート1を評価。'},
+ 13:{grade:'D',action:'基本見送り',reason:'2400mG1で連続好走しているが、基礎レーティングは下位。90倍台でも勝ち切りまでの裏付けは弱い。'},
+ 14:{grade:'A',action:'買う／上位評価',reason:'パリ大賞典勝ち・英ダービー2着。3歳56.5kgで距離・近況・舞台の3点が揃い、古馬相手でも上位候補。'},
+ 15:{grade:'A',action:'買う',reason:'英オークス勝ちに加えて55kg。ゲート3も大きなプラスで、2400mへ戻る条件は明確に好転。'},
+ 16:{grade:'B',action:'相手で買う',reason:'G1で4勝・2着1回の能力と55kgは魅力。ただ2400m初挑戦＋大外16番なので上位評価から一段下げる。'}
+};
+function getFinalEval(h){
+  return FINAL_HORSE_EVALS[Number(h.num)] || {grade:'C',action:'保留',reason:'最終判断未設定'};
+}
+function renderFinalEvalBlock(h){
+  const e=getFinalEval(h);
+  return `<div class="final-eval-strip"><div class="final-eval-grade final-grade-${e.grade}">${e.grade}</div><div class="final-eval-main"><div class="final-eval-action">最終評価 ${e.grade}｜${e.action}</div><div class="final-eval-reason">${e.reason}</div></div></div>`;
+}
+function renderFinalGradeSummary(){
+  const root=document.getElementById('final-grade-grid');
+  if(!root) return;
+  const order=['S','A','B','C','D','E'];
+  const labels={S:'積極的に買う・軸候補',A:'買う・上位評価',B:'相手で買う',C:'押さえ・オッズ次第',D:'基本見送り',E:'買わない'};
+  root.innerHTML=order.map(g=>{
+    const hs=[...HORSE_DATA].filter(h=>getFinalEval(h).grade===g).sort((a,b)=>Number(a.num)-Number(b.num));
+    if(!hs.length) return '';
+    return `<div class="final-grade-row"><div class="grade-letter final-grade-${g}">${g}</div><div class="final-grade-names"><b>${labels[g]}</b><br>${hs.map(h=>`${h.num} ${h.name}`).join(' ／ ')}</div></div>`;
+  }).join('');
+}
+
 // レース名から保存キーを自動生成。別レースへ流用しても保存内容が混ざらない。
 const RACE_STORE_ID = ((document.querySelector('.page-title')?.innerText || document.title || 'AIBOU_RACE')
     .replace(/[^0-9A-Za-zぁ-んァ-ヶ一-龠]+/g,'_').replace(/^_+|_+$/g,'').slice(0,60)) || 'AIBOU_RACE';
-const STORE_NUMS = `keibaNums_${RACE_STORE_ID}_v8final1004`;
-const STORE_DATA = `keibaData_${RACE_STORE_ID}_v8final1004`;
-const STORE_RADAR = `keibaRadar_${RACE_STORE_ID}_v8final1004`;
-const STORE_MARK = `keibaMark_${RACE_STORE_ID}_v8final1004`;
-const STORE_SORT = `keibaSort_${RACE_STORE_ID}_v8final1004`;
-const STORE_RADAR_LABELS = `keibaRadarLabels_${RACE_STORE_ID}_v8final1004`;
-const STORE_WINRATES = `keibaWinRates_${RACE_STORE_ID}_v8final1004`;
-const STORE_COND_TRACK = `keibaCondTrack_${RACE_STORE_ID}_v8final1004`;
-const STORE_COND_PACE = `keibaCondPace_${RACE_STORE_ID}_v8final1004`;
-const STORE_COND_WEATHER = `keibaCondWeather_${RACE_STORE_ID}_v8final1004`;
-const STORE_COND_BIAS = `keibaCondBias_${RACE_STORE_ID}_v8final1004`;
-const STORE_PACE_STATE = `keibaPaceState_${RACE_STORE_ID}_v8final1004`;
-const STORE_ODDS = `keibaOdds_${RACE_STORE_ID}_v8final1004`;
-const STORE_EV_ODDS = `keibaEvOdds_${RACE_STORE_ID}_v8final1004`;
-const STORE_EV_TARGET = `keibaEvTarget_${RACE_STORE_ID}_v8final1004`;
-const STORE_BET_TYPE = `keibaBetType_${RACE_STORE_ID}_v8final1004`;
+const STORE_NUMS = `keibaNums_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_DATA = `keibaData_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_RADAR = `keibaRadar_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_MARK = `keibaMark_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_SORT = `keibaSort_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_RADAR_LABELS = `keibaRadarLabels_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_WINRATES = `keibaWinRates_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_COND_TRACK = `keibaCondTrack_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_COND_PACE = `keibaCondPace_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_COND_WEATHER = `keibaCondWeather_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_COND_BIAS = `keibaCondBias_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_PACE_STATE = `keibaPaceState_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_ODDS = `keibaOdds_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_EV_ODDS = `keibaEvOdds_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_EV_TARGET = `keibaEvTarget_${RACE_STORE_ID}_v9finaleval1004`;
+const STORE_BET_TYPE = `keibaBetType_${RACE_STORE_ID}_v9finaleval1004`;
 
 // 枠番・馬番は確定値を初期表示
 let currentNums = {};
@@ -3175,7 +3244,7 @@ function renderWinRateGraph() {
         let displayWidth = Math.min((rate / 60) * 100, 100);
         const fair = winEv1Odds(rate);
         const fairText = Number.isFinite(fair) ? `ボーダー ${fmtOdds(fair)}倍` : 'ボーダー —';
-        const marketText = Number(h.odds)>0 ? `単${h.odds.toFixed(1)} / 複${h.placeOdds || '—'}` : '市場オッズ —';
+        const marketText = Number(h.odds)>0 ? `単${h.odds.toFixed(1)} / ${h.pop}人気` : '市場オッズ —';
         const evRatio = (Number(h.odds)>0 && Number.isFinite(fair) && fair>0) ? (h.odds/fair) : NaN;
         const evTag = Number.isFinite(evRatio) ? `<span class="wr-market-ev ${evRatio>=1?'plus':'minus'}">市場/境界 ${evRatio.toFixed(2)}</span>` : '';
         list.insertAdjacentHTML('beforeend', `<div class="wr-row"><div class="wr-info" onclick="openModal('${h.key}')"><div class="wr-name"><span class="wr-num-badge" style="background:${h.bg}; color:${h.text}; border:${h.border}; font-size:0.65rem;">${h.numStr}</span> ${h.name}</div><div class="wr-model-sub">R基準 ${h.ratingBase.toFixed(1)}% → 初期 ${h.modelInitial.toFixed(1)}%</div><div class="wr-market-line">${marketText}</div></div><div class="wr-bar-container"><div class="wr-bar" style="width: ${displayWidth}%;" id="wr-bar-graph-${h.key}"></div></div><div class="wr-controls"><button class="wr-btn" onclick="adjustWinRateGraph('${h.key}', -0.5)">-</button><input type="number" class="wr-input-graph" id="wr-input-graph-${h.key}" data-hkey="${h.key}" value="${rate}" step="0.1" max="60" oninput="inputWinRateGraph('${h.key}')"><span class="wr-unit">%</span><button class="wr-btn" onclick="adjustWinRateGraph('${h.key}', 0.5)">+</button></div><div class="wr-ev1" id="wr-ev1-${h.key}" title="この推定勝率で損益分岐になる単勝ボーダーオッズ">${fairText}${evTag}</div></div>`);
@@ -3244,7 +3313,7 @@ function renderUI() {
             <div class="vs-header-area">
                 <div class="vs-name-wrap" onclick="openModal('${h.key}')" title="タップして詳細・過去3走を開く">
                     <div class="vs-name"><span style="display:inline-flex;align-items:center;gap:4px;margin-right:6px;"><span style="background:#edf2f7;color:#2d3748;border:1px solid #cbd5e0;border-radius:4px;padding:1px 5px;font-size:0.78rem;">G${h.gate}</span><span style="background:${h.bg};color:${h.text};border:${h.border};border-radius:4px;padding:1px 5px;font-size:0.82rem;">${h.num}番</span></span>${h.name}</div>
-                    <div class="vs-odds-info">${Number(h.odds)>0 ? `${h.pop}人気 / 単勝${h.odds}倍 / 複勝${h.placeOdds || "—"}` : `オッズ未入力 / Rating ${h.rating}lb`} <span class="chevron-icon">▶</span></div>
+                    <div class="vs-odds-info">${Number(h.odds)>0 ? `${h.pop}人気 / 単勝${h.odds}倍` : `オッズ未入力 / Rating ${h.rating}lb`} <span class="chevron-icon">▶</span></div>
                 </div>
                 <div class="vs-controls">
                     <div class="mark-wrap"><select id="mark-sum-${h.key}" class="mark-select" data-hkey="${h.key}">${getMarkOptions(markState[h.key])}</select><div class="mark-placeholder" id="ph-sum-${h.key}">${markState[h.key] ? '' : '印'}</div></div>
@@ -3263,10 +3332,11 @@ function renderUI() {
                 ${createRadarSVG(h.key)}
             </div>
             <div class="memo-caption">短評・当日メモ</div><textarea id="sync-memo-${h.key}" class="sync-memo-race" placeholder="短評メモを入力..." data-sync="memo-${h.key}">${defaultMemo}</textarea>
+            ${renderFinalEvalBlock(h)}
         </div>`;
         grid.insertAdjacentHTML('beforeend', html);
     });
-    renderPaceBoard(); setupDynamicEvents();
+    renderPaceBoard(); renderFinalGradeSummary(); setupDynamicEvents();
 }
 
 function openModal(key) {
@@ -3280,7 +3350,7 @@ function openModal(key) {
         <div class="hp-header-main">
             <div style="display:flex; align-items:baseline; gap:8px;">
                 <div class="hp-name-det"><span style="background:#edf2f7;color:#2d3748;border:1px solid #cbd5e0;border-radius:4px;padding:2px 6px;font-size:0.9rem;margin-right:2px;">ゲート${h.gate}</span><span style="background:${h.bg};color:${h.text};border:${h.border};border-radius:4px;padding:2px 6px;font-size:0.9rem;margin-right:4px;">${h.num}番</span>${h.name}</div>
-                <div style="font-size:0.85rem; color:#718096;">(${Number(h.odds)>0 ? `単勝${h.odds}倍 / 複勝${h.placeOdds || "—"} / ${h.pop}人気` : `オッズ未入力 / Rating ${h.rating}lb`})</div>
+                <div style="font-size:0.85rem; color:#718096;">(${Number(h.odds)>0 ? `単勝${h.odds}倍 / ${h.pop}人気` : `オッズ未入力 / Rating ${h.rating}lb`})</div>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
                 <div class="win-rate-badge" style="font-size:0.85rem; padding: 4px 8px; border-color:#2b6cb0;">推定 <span style="color:#c53030; font-weight:bold; font-size:1rem; margin:0 4px;">${wr}</span>% <span style="margin-left:6px;color:#744210;">ボーダー ${Number.isFinite(winEv1Odds(wr)) ? fmtOdds(winEv1Odds(wr)) + '倍' : '—'}</span></div>
@@ -3333,6 +3403,7 @@ function openModal(key) {
             <div class="analysis-box">
                 <div style="font-weight:bold; color:#1a365d; margin-bottom:10px; font-size:1rem; border-bottom:1px solid #cbd5e0; padding-bottom:5px;">暫定メモ</div>
                 <div contenteditable="true" class="analysis-extra" data-sync="extra-${h.key}" style="font-size:0.92rem;line-height:1.75;background:#ffffff;border-style:solid;">${h.descExtra}</div>
+                ${renderFinalEvalBlock(h)}
             </div>
         </div>
     </div>`;
@@ -3433,7 +3504,7 @@ function applyOdds() {
 
 function resetData() {
     if (!confirm('すべてのメモ・印・勝率・現在オッズ編集を初期状態に戻しますか？')) return;
-    localStorage.removeItem(STORE_DATA); localStorage.removeItem(STORE_RADAR); localStorage.removeItem(STORE_MARK); localStorage.removeItem(STORE_WINRATES); localStorage.removeItem(`keibaFocusPicks_${RACE_STORE_ID}_v8final1004`); localStorage.removeItem(STORE_PACE_STATE); localStorage.removeItem(STORE_NUMS); localStorage.removeItem(STORE_EV_ODDS); localStorage.removeItem(STORE_EV_TARGET); localStorage.removeItem(STORE_BET_TYPE);
+    localStorage.removeItem(STORE_DATA); localStorage.removeItem(STORE_RADAR); localStorage.removeItem(STORE_MARK); localStorage.removeItem(STORE_WINRATES); localStorage.removeItem(`keibaFocusPicks_${RACE_STORE_ID}_v9finaleval1004`); localStorage.removeItem(STORE_PACE_STATE); localStorage.removeItem(STORE_NUMS); localStorage.removeItem(STORE_EV_ODDS); localStorage.removeItem(STORE_EV_TARGET); localStorage.removeItem(STORE_BET_TYPE);
     location.reload();
 }
 
@@ -3451,12 +3522,12 @@ function focusEscapeHtml(value){
 }
 
 
-const STORE_FOCUS_PICKS = `keibaFocusPicks_${RACE_STORE_ID}_v8final1004`;
+const STORE_FOCUS_PICKS = `keibaFocusPicks_${RACE_STORE_ID}_v9finaleval1004`;
 
 const FOCUS_DEFAULT_COMMENTS = {
     1:'◎ ダリズ。R127、前年の凱旋門賞勝ち＋前走フォワ賞勝ち。馬場がBONまで乾いても中距離G1勝ちがあり対応幅は広い。現在3.7倍はモデルの単勝ボーダーより売れており、妙味より信頼度を取る軸候補。',
     9:'○ カルパナ。比較R上位で2370〜2400mの安定感が高い。晴れて良方向へ回復する想定はスピード持続型の実績と噛み合う。現在6.4倍でモデル評価との乖離も比較的小さい。',
-    8:'▲ ミニーホーク。比較R上位・4歳牝馬・6番ゲートでデータ室3頭にも該当。近走の不安は残るが、現在37.0倍はAIBOU推定勝率との価格差が大きく、相手・穴候補として残す。'
+    8:'▲ ミニーホーク。比較R上位・4歳牝馬・10番ゲートでデータ室3頭にも該当。近走の不安は残るが、現在37.0倍はAIBOU推定勝率との価格差が大きく、相手・穴候補として残す。'
 };
 
 function focusHorseByNo(no){
